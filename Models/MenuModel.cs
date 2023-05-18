@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Threading.Tasks;
+
+namespace PICI.Models
+{
+    [DataContract]
+    public class MenuModel
+    {
+        [DataMember(Name = "menuId")]
+        public Int64 MenuId { get; set; }
+        [DataMember(Name = "menu")]
+        public string Menu { get; set; }
+
+        [DataMember(Name = "pageUrl")]
+        public string PageUrl { get; set; }
+        [DataMember(Name = "icon")]
+        public string Icon { get; set; }
+
+    }
+}
