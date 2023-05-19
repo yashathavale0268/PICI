@@ -127,60 +127,61 @@ namespace PICI.Repository
             IsSuccess = isSuccess;
             return;
         }
-        internal async Task SendUpdatesEmail(string email, string reciever,string pid ,string Updater=null, string Creator = null)
-        {
-            if (Creator is null) {
-                var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("Kayley Rosenbaum", "kayley.rosenbaum19@ethereal.email"));
-                message.To.Add(new MailboxAddress("creator", email));
-                message.To.Add(new MailboxAddress("reciever", reciever));
-                message.Subject = "Password Reset";
-                message.Body = new TextPart("plain")
-                {
-                    Text = $" A new project was created by " + Creator + $"with Project ID "+pid+ $"Do the needfull."
-                };
+        //internal async Task SendUpdatesEmail(SenderMail mail)
+        //{
+        //    if (mail.CreatorName is not null) {
+        //        var message = new MimeMessage();
+        //        message.From.Add(new MailboxAddress("Kayley Rosenbaum", "kayley.rosenbaum19@ethereal.email"));
+        //        message.To.Add(new MailboxAddress("creator", mail.Email1));
+        //        message.To.Add(new MailboxAddress("reciever", mail.Email2));
+        //        message.Subject = "New Project Added";
+        //        message.Body = new TextPart("plain")
+        //        {
+        //            Text = $" A new project was created by " + mail.CreatorName + $"with Project ID "+mail.Pid+ $"" +
+        //            mail.SubjectName
+        //        };
 
-                using (var client = new SmtpClient())
-                { 
-                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                    await client.ConnectAsync("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-                    await client.AuthenticateAsync(mail.email,mail.password);
-                    await client.SendAsync(message);
-                    await client.DisconnectAsync(true);
-                }
-            }
-        }
-        internal async Task<UserModel> GetByemail(EventMails email)
-        {
-            using (SqlConnection sql = new(_connectionString))
-            using (SqlCommand cmd = new("sp_checkemail", sql))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Email", email.Email);
+        //        using (var client = new SmtpClient())
+        //        { 
+        //            client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+        //            await client.ConnectAsync("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
+        //            await client.AuthenticateAsync("kayley.rosenbaum19@ethereal.email", "C95Zf2Cpb46SkgyJW6");
+        //            await client.SendAsync(message);
+        //            await client.DisconnectAsync(true);
+        //        }
+        //    }
+        //}
+        //internal async Task<UserModel> GetByemail(EventMails email)
+        //{
+        //    using (SqlConnection sql = new(_connectionString))
+        //    using (SqlCommand cmd = new("sp_checkemail", sql))
+        //    {
+        //        cmd.CommandType = CommandType.StoredProcedure;
+        //        cmd.Parameters.AddWithValue("@Email", email.Email);
 
-                var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-                cmd.Parameters.Add(returncode);
-                await sql.OpenAsync();
-                UserModel response = new();
-                // var response = new List<AssetModel>();
-                using (var reader = await cmd.ExecuteReaderAsync())
-                {
-                    while (await reader.ReadAsync())
-                    {
-                        response = getnamebyemail(reader);
-                    }
-                }
-                await sql.CloseAsync();
+        //        var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+        //        cmd.Parameters.Add(returncode);
+        //        await sql.OpenAsync();
+        //        UserModel response = new();
+        //        // var response = new List<AssetModel>();
+        //        using (var reader = await cmd.ExecuteReaderAsync())
+        //        {
+        //            while (await reader.ReadAsync())
+        //            {
+        //                response = getnamebyemail(reader);
+        //            }
+        //        }
+        //        await sql.CloseAsync();
 
-                bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
+        //        bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
 
-                Itexists = itexists;
+        //        Itexists = itexists;
 
 
-                return response;
-            }
+        //        return response;
+        //    }
 
-        }
+        //}
 
     }
 }
