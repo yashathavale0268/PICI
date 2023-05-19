@@ -21,14 +21,14 @@ namespace PICI.Repository
 
        
 
-        internal DataSet GetRolePerms(int User, int Menu)
+        internal DataSet GetRolePerms(int role, int Menu)
         {
             using (SqlConnection sql = new(_connectionString))
             {
                 using (SqlCommand cmd = new("sp_GetRolePerms", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@role", User);
+                    cmd.Parameters.AddWithValue("@role", role);
                     cmd.Parameters.AddWithValue("@menuid", Menu);
 
                     SqlDataAdapter adapter = new(cmd);

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PICI.Models;
-
-using Microsoft.AspNetCore.Mvc;
 using PICI.Repository;
+//using CoreApiAdoDemo.Model;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,19 +13,19 @@ namespace PICI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProjectController : ControllerBase
+    public class ServerInfoController : ControllerBase
     {
-        private readonly ProjectRepository _repository;
-        public ProjectController(ProjectRepository repository)
+        private readonly ServerInfoRepository _repository;
+        public ServerInfoController(ServerInfoRepository repository)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
-
+        // GET: api/<ServerInfoController>
         [HttpGet("GetRolePerms")]
-        public IActionResult GetRolePerms(int role = 0, int Menu = 0)
+        public IActionResult GetRolePerms( int role= 0,  int Menu=0)
         {
             var msg = new Message();
-            var GetDets = _repository.GetRolePerms(role, Menu);
+            var GetDets = _repository.GetRolePerms(role,Menu);
             if (GetDets.Tables.Count > 0)
             {
                 msg.IsSuccess = true;
@@ -39,11 +39,13 @@ namespace PICI.Controllers
             return Ok(msg);
         }
 
-        [HttpGet("GetAllProjects")]
-        public IActionResult Getproject([FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 0, [FromQuery] string searchTerm = null)
+        
+        // GET: api/<ServerInfoController>
+        [HttpGet("GetAllServerInfo")]
+        public IActionResult GetServerInfo([FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 0, [FromQuery] string searchTerm = null)
         {
             var msg = new Message();
-            var GetDets = _repository.SearchProject(pageNumber, pageSize, searchTerm);
+            var GetDets = _repository.SearchServerInfo(pageNumber, pageSize, searchTerm);
             if (GetDets.Tables.Count > 0)
             {
                 msg.IsSuccess = true;
@@ -56,11 +58,13 @@ namespace PICI.Controllers
             }
             return Ok(msg);
         }
+
+        // GET api/<ServerInfoController>/5
         [HttpGet("{id}")]
-        public IActionResult Getprojectid(int id)
+        public IActionResult GetServerInfoid(int id)
         {
             var msg = new Message();
-            var GetDets = _repository.GetProjectid(id);
+            var GetDets = _repository.GetServerInfo(id);
             if (GetDets.Tables.Count > 0)
             {
                 msg.IsSuccess = true;
@@ -74,12 +78,12 @@ namespace PICI.Controllers
             return Ok(msg);
         }
 
-        // POST api/<ProjectController>
+        // POST api/<ServerInfoController>
         [HttpPost]
-        public IActionResult Post(ProjectModel proj)
+        public IActionResult Post(ServerInfoModel serv)
         {
             var msg = new Message();
-             _repository.Insert(proj);
+            _repository.Insert(serv);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
 
@@ -101,12 +105,12 @@ namespace PICI.Controllers
             return Ok(msg);
         }
 
-        //// PUT api/<ProjectController>/5
+        // PUT api/<ServerInfoController>/5
         [HttpPut]
-        public IActionResult Put(ProjectModel proj)
+        public IActionResult Put(ServerInfoModel serv)
         {
             var msg = new Message();
-            _repository.Insert(proj);
+            _repository.Insert(serv);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
 
@@ -128,13 +132,13 @@ namespace PICI.Controllers
             return Ok(msg);
         }
 
-        //// DELETE api/<ProjectController>/5
+        // DELETE api/<ServerInfoController>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             var msg = new Message();
 
-               _repository.DeleteById(id);
+            _repository.DeleteById(id);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
             if (exists is false)

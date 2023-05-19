@@ -7,5 +7,7 @@ namespace PICI.Models
 {
     public class TechStackModel
     {
-    }
+        public Int64 Tsid { get; set; }
+    public string TechStack { get; set; }
+}
 }

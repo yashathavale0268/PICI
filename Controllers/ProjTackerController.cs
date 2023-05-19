@@ -20,10 +20,10 @@ namespace PICI.Controllers
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
         [HttpGet("GetRolePerms")]
-        public IActionResult GetRolePerms(int User = 0, int Menu = 0)
+        public IActionResult GetRolePerms(int role = 0, int Menu = 0)
         {
             var msg = new Message();
-            var GetDets = _repository.GetRolePerms(User, Menu);
+            var GetDets = _repository.GetRolePerms(role, Menu);
             if (GetDets.Tables.Count > 0)
             {
                 msg.IsSuccess = true;
