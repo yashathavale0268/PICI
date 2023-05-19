@@ -2,8 +2,11 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using MimeKit;
 using PICI.Models;
 
 namespace PICI.Repository
@@ -16,6 +19,7 @@ namespace PICI.Repository
         public ProjectRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("MainCon");
+
         }
 
         internal DataSet GetRolePerms(int role, int Menu)
@@ -122,6 +126,60 @@ namespace PICI.Repository
             Itexists = itExists;
             IsSuccess = isSuccess;
             return;
+        }
+        internal async Task SendUpdatesEmail(string email, string reciever,string pid ,string Updater=null, string Creator = null)
+        {
+            if (Creator is null) {
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("Kayley Rosenbaum", "kayley.rosenbaum19@ethereal.email"));
+                message.To.Add(new MailboxAddress("creator", email));
+                message.To.Add(new MailboxAddress("reciever", reciever));
+                message.Subject = "Password Reset";
+                message.Body = new TextPart("plain")
+                {
+                    Text = $" A new project was created by " + Creator + $"with Project ID "+pid+ $"Do the needfull."
+                };
+
+                using (var client = new SmtpClient())
+                { 
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    await client.ConnectAsync("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
+                    await client.AuthenticateAsync(mail.email,mail.password);
+                    await client.SendAsync(message);
+                    await client.DisconnectAsync(true);
+                }
+            }
+        }
+        internal async Task<UserModel> GetByemail(EventMails email)
+        {
+            using (SqlConnection sql = new(_connectionString))
+            using (SqlCommand cmd = new("sp_checkemail", sql))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Email", email.Email);
+
+                var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                cmd.Parameters.Add(returncode);
+                await sql.OpenAsync();
+                UserModel response = new();
+                // var response = new List<AssetModel>();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        response = getnamebyemail(reader);
+                    }
+                }
+                await sql.CloseAsync();
+
+                bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
+
+                Itexists = itexists;
+
+
+                return response;
+            }
+
         }
 
     }
