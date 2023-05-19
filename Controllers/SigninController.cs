@@ -318,6 +318,7 @@ namespace PICI.Controllers
             bool success = _repository.IsSuccess;
          if (success is true)
             {
+                await _repository.SetRoles(Role, id);
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " User Role is Updated Successfully";
 
