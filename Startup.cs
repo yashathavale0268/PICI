@@ -42,23 +42,23 @@ namespace PICI
             services.AddSession(m => m.IdleTimeout = TimeSpan.FromMinutes(30));
             services.AddHttpClient();
             services.AddScoped<SigninRepository>();
-         //   services.AddScoped<AssettypeRepository>();
-         //   services.AddScoped<AssetRepository>();
-        ///   services.AddScoped<BranchRepository>();
-          //  services.AddScoped<CompanyRepository>();
-         //   services.AddScoped<DepartmentRepository>();
+            services.AddScoped<ProjectTypeRepository>();
+            services.AddScoped<TechstackRepository>();
+            services.AddScoped<EnvTypeRepository>();
+            services.AddScoped<EnvLocationRepository>();
             services.AddScoped<MenuRepository>();
             services.AddScoped<CustomerRepository>();
             services.AddScoped<ProjTrackerRepository>();
             services.AddScoped<ProjectRepository>();
             services.AddScoped<ServerInfoRepository>();
-         //   services.AddScoped<VendorRepository>();
-          //  services.AddScoped<StatusRepository>();
-          ////  services.AddScoped<RequestRepository>();
+            //   services.AddScoped<VendorRepository>();
+            //   services.AddScoped<DepartmentRepository>();
+            //  services.AddScoped<StatusRepository>();
+            ////  services.AddScoped<RequestRepository>();
             //services.AddScoped<ScrapRepository>();
-           // services.AddScoped<LocationRepository>();
-          //  services.AddScoped<ReportsRepository>();
-          //  services.AddScoped<TransferRepository>();
+            // services.AddScoped<LocationRepository>();
+            //  services.AddScoped<ReportsRepository>();
+            //  services.AddScoped<TransferRepository>();
 
             services.AddMvc();
             services.AddSwaggerGen(c =>

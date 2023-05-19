@@ -9,12 +9,12 @@ using Microsoft.Extensions.Configuration;
 
 namespace PICI.Repository
 { 
-    public class EnvTypeRepository
+    public class ProjectTypeRepository
     {
         private readonly string _connectionString;
         public bool Itexists { get; set; }
         public bool IsSuccess { get; set; }
-        public EnvTypeRepository(IConfiguration configuration)
+        public ProjectTypeRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("MainCon");
         }

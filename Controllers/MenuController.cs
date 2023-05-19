@@ -59,10 +59,10 @@ namespace PICI.Controllers
 
 
         [HttpGet("GetAllDetails")]
-        public ActionResult<IEnumerable<MenuModel>> GetMenu([FromQuery] int role = 0, [FromQuery] int proj = 0, [FromQuery] int userid = 0)
+        public ActionResult<IEnumerable<MenuModel>> GetMenu([FromQuery] int role = 0)
         {
             var msg = new Message();
-            var GetDets = _repository.GetMenu(role, proj, userid);
+            var GetDets = _repository.GetMenu(role);
             if (GetDets.Tables.Count > 0)
             {
                 msg.IsSuccess = true;
