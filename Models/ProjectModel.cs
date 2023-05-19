@@ -32,7 +32,13 @@ namespace PICI.Models
 
         [DataMember(Name = "Type")]
         public int Type { get; set; }
-        
+
+        [DataMember(Name = "CreatedBy")]
+        public int CreatedBy { get; set; }
+
+        [DataMember(Name = "UpdatedBy")]
+        public int UpdatedBy { get; set; }
+
 
     }
 }

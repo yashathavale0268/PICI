@@ -543,6 +543,28 @@ namespace PICI.Controllers
         //    commondbo = await _common.giveAll();
 
         //}
+        [HttpGet]
+        [Route("GetAllRolePermissions")]
+        public IActionResult GetAllRolePermissions([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery] int Role = 0)
+        {
+            var msg = new Message();
+            // Step 8: Call the repository method
+            _repository.GetAllRolePermissions(pageNumber, pageSize, searchTerm,Role);
+            bool success = _repository.IsSuccess;
+            if (success is true)
+            {
+
+                msg.IsSuccess = true;
+                msg.ReturnMessage = " User is Updated Successfully";
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = " per";
+            }
+            // Step 9: Return the appropriate response
+            return Ok(msg);
+        }
         [HttpPost]
         [Route("RolePermissions")]
         public IActionResult BulkInsertOrUpdate(List<RolePermissionsModel> data)

@@ -92,6 +92,9 @@ namespace PICI.Controllers
             {
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " new entry succesfully registered";
+                //SenderMail mail = new();
+                
+                
             }
             else
             {
@@ -99,8 +102,11 @@ namespace PICI.Controllers
                 msg.ReturnMessage = "registeration unscessfull";
             }
             return Ok(msg);
-        }
 
+           
+
+        }
+        
         //// PUT api/<ProjectController>/5
         [HttpPut]
         public IActionResult Put(ProjectModel proj)
@@ -127,6 +133,37 @@ namespace PICI.Controllers
             }
             return Ok(msg);
         }
+
+        //public async Task<IEnumerable<SenderMail>> GetCurrentInfo(SenderMail mail)
+        //{
+        //    var msg = new Message();
+        //    //SenderMail mail = new();
+        //    mail = await _repository.getcurretinfo(mail);
+            
+
+        //    //_repository.Insert(mail);
+        //    //bool exists = _repository.Itexists;
+        //    //bool success = _repository.IsSuccess;
+
+        //    if (exists is true)
+        //    {
+        //        msg.IsSuccess = false;
+        //        msg.ReturnMessage = "Item alredy registered";
+        //    }
+        //    else if (success is true)
+        //    {
+        //        msg.IsSuccess = true;
+        //        msg.ReturnMessage = " update successful";
+        //        await _repository.SendUpdatesEmail(mail);
+        //    }
+        //    else
+        //    {
+        //        msg.IsSuccess = false;
+        //        msg.ReturnMessage = "registeration unsucessfull";
+        //    }
+        //    return Ok(msg);
+        //}
+
 
         //// DELETE api/<ProjectController>/5
         [HttpDelete("{id}")]

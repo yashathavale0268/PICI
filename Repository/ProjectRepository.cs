@@ -90,6 +90,8 @@ namespace PICI.Repository
             cmd.Parameters.Add(new SqlParameter("@Techstack", proj.Techstack));
             cmd.Parameters.Add(new SqlParameter("@PMName", proj.PMName));
             cmd.Parameters.Add(new SqlParameter("@Type", proj.Type));
+            cmd.Parameters.Add(new SqlParameter("@Type", proj.CreatedBy));
+            cmd.Parameters.Add(new SqlParameter("@Type", proj.UpdatedBy));
 
 
             var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
@@ -127,37 +129,61 @@ namespace PICI.Repository
             IsSuccess = isSuccess;
             return;
         }
-        //internal async Task SendUpdatesEmail(SenderMail mail)
-        //{
-        //    if (mail.CreatorName is not null) {
-        //        var message = new MimeMessage();
-        //        message.From.Add(new MailboxAddress("Kayley Rosenbaum", "kayley.rosenbaum19@ethereal.email"));
-        //        message.To.Add(new MailboxAddress("creator", mail.Email1));
-        //        message.To.Add(new MailboxAddress("reciever", mail.Email2));
-        //        message.Subject = "New Project Added";
-        //        message.Body = new TextPart("plain")
-        //        {
-        //            Text = $" A new project was created by " + mail.CreatorName + $"with Project ID "+mail.Pid+ $"" +
-        //            mail.SubjectName
-        //        };
+        internal async Task SendUpdatesEmail(SenderMail mail)
+        {
+            if (mail.CreatorName is not null)
+            {
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("Kayley Rosenbaum", "kayley.rosenbaum19@ethereal.email"));
+                message.To.Add(new MailboxAddress("creator", mail.Email1));
+                message.To.Add(new MailboxAddress("reciever", mail.Email2));
+                message.Subject = "New Project Added";
+                message.Body = new TextPart("plain")
+                {
+                    Text = $" A new project was created by " + mail.CreatorName + $"with Project ID " + mail.Pid + $" AND Name" +
+                    mail.SubjectName + $"Created on " + mail.Created_on.Date
+                };
 
-        //        using (var client = new SmtpClient())
-        //        { 
-        //            client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-        //            await client.ConnectAsync("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-        //            await client.AuthenticateAsync("kayley.rosenbaum19@ethereal.email", "C95Zf2Cpb46SkgyJW6");
-        //            await client.SendAsync(message);
-        //            await client.DisconnectAsync(true);
-        //        }
-        //    }
-        //}
-        //internal async Task<UserModel> GetByemail(EventMails email)
+                using (var client = new SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    await client.ConnectAsync("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
+                    await client.AuthenticateAsync("kayley.rosenbaum19@ethereal.email", "C95Zf2Cpb46SkgyJW6");
+                    await client.SendAsync(message);
+                    await client.DisconnectAsync(true);
+                }
+            }
+            else if (mail.UpdaterName is not null) {
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("Kayley Rosenbaum", "kayley.rosenbaum19@ethereal.email"));
+                message.To.Add(new MailboxAddress("Updater", mail.Email1));
+                message.To.Add(new MailboxAddress("reciever", mail.Email2));
+                message.Subject = "New Project Added";
+                message.Body = new TextPart("plain")
+                {
+                    Text = $" A Entry for Project ID" + mail.Pid + 
+                    $" AND Name" +mail.SubjectName + 
+                    $"by " + mail.UpdaterName + 
+                    $"Updated on " + mail.Updated_on.Date
+                };
+
+                using (var client = new SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    await client.ConnectAsync("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
+                    await client.AuthenticateAsync("kayley.rosenbaum19@ethereal.email", "C95Zf2Cpb46SkgyJW6");
+                    await client.SendAsync(message);
+                    await client.DisconnectAsync(true);
+                }
+            }
+        }
+        //internal async Task<UserModel> GetByemail(SenderMail email)
         //{
         //    using (SqlConnection sql = new(_connectionString))
         //    using (SqlCommand cmd = new("sp_checkemail", sql))
         //    {
         //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@Email", email.Email);
+        //        cmd.Parameters.AddWithValue("@uid");
 
         //        var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
         //        cmd.Parameters.Add(returncode);
