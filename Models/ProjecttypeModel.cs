@@ -7,6 +7,10 @@ namespace PICI.Models
 {
     public class ProjecttypeModel
     {
+        public int ProjTypid { get; set; }
+        
+        public string ProjTyp { get; set; }
+
 
     }
 }

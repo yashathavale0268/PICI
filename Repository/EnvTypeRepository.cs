@@ -23,7 +23,7 @@ namespace PICI.Repository
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
-                using (SqlCommand cmd = new SqlCommand("sp_SearchAllServerInfo_Paginated", sql))
+                using (SqlCommand cmd = new SqlCommand("sp_SearchAllEnvType_Paginated", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
@@ -38,23 +38,23 @@ namespace PICI.Repository
             }
         }
 
-        //internal DataSet GetServerInfo(int id)
-        //{
-        //    using (SqlConnection sql = new SqlConnection(_connectionString))
-        //    {
-        //        using (SqlCommand cmd = new SqlCommand("sp_SearchAllServerInfo_Paginated", sql))
-        //        {
-        //            cmd.CommandType = CommandType.StoredProcedure;
-        //            cmd.Parameters.AddWithValue("@id", id);
+        internal DataSet GetEnvTypebyId(int id)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_SearchAllEnvType_Paginated", sql))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id", id);
 
 
-        //            SqlDataAdapter adapter = new(cmd);
-        //            DataSet dataSet = new();
-        //            adapter.Fill(dataSet);
-        //            return dataSet;
-        //        }
-        //    }
-        //}
+                    SqlDataAdapter adapter = new(cmd);
+                    DataSet dataSet = new();
+                    adapter.Fill(dataSet);
+                    return dataSet;
+                }
+            }
+        }
 
         public void Insert(EnvTypeModel etype)
         {
@@ -80,25 +80,25 @@ namespace PICI.Repository
             return;
         }
 
-        //public void DeleteById(int id)
-        //{
-        //    using SqlConnection sql = new(_connectionString);
-        //    using SqlCommand cmd = new("sp_DeleteServerInfo", sql);
-        //    cmd.CommandType = CommandType.StoredProcedure;
-        //    cmd.Parameters.Add(new SqlParameter("@id", id));
-        //    var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-        //    cmd.Parameters.Add(returncode);
-        //    var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-        //    cmd.Parameters.Add(returnpart);
+        public void DeleteById(int id)
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_DeleteEnvType", sql);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@id", id));
+            var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+            cmd.Parameters.Add(returncode);
+            var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+            cmd.Parameters.Add(returnpart);
 
-        //    sql.Open();
-        //    cmd.ExecuteNonQuery();
-        //    bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
-        //    bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
-        //    sql.Close();
-        //    Itexists = itExists;
-        //    IsSuccess = isSuccess;
-        //    return;
-        //}
+            sql.Open();
+            cmd.ExecuteNonQuery();
+            bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+            bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+            sql.Close();
+            Itexists = itExists;
+            IsSuccess = isSuccess;
+            return;
+        }
     }
 }

@@ -19,11 +19,11 @@ namespace PICI.Repository
             _connectionString = configuration.GetConnectionString("MainCon");
         }
 
-        internal DataSet SearchEnvType(int pageNumber, int pageSize, string searchTerm)
+        internal DataSet SearchProjType(int pageNumber, int pageSize, string searchTerm)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
-                using (SqlCommand cmd = new SqlCommand("sp_SearchAllServerInfo_Paginated", sql))
+                using (SqlCommand cmd = new SqlCommand("sp_SearchAllProjectType_Paginated", sql))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
@@ -38,33 +38,33 @@ namespace PICI.Repository
             }
         }
 
-        //internal DataSet GetServerInfo(int id)
-        //{
-        //    using (SqlConnection sql = new SqlConnection(_connectionString))
-        //    {
-        //        using (SqlCommand cmd = new SqlCommand("sp_SearchAllServerInfo_Paginated", sql))
-        //        {
-        //            cmd.CommandType = CommandType.StoredProcedure;
-        //            cmd.Parameters.AddWithValue("@id", id);
+        internal DataSet GetProjTypebyId(int id)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_SearchAllProjectType_Paginated", sql))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id", id);
 
 
-        //            SqlDataAdapter adapter = new(cmd);
-        //            DataSet dataSet = new();
-        //            adapter.Fill(dataSet);
-        //            return dataSet;
-        //        }
-        //    }
-        //}
+                    SqlDataAdapter adapter = new(cmd);
+                    DataSet dataSet = new();
+                    adapter.Fill(dataSet);
+                    return dataSet;
+                }
+            }
+        }
 
-        public void Insert(EnvTypeModel etype)
+        public void Insert(ProjecttypeModel ptype)
         {
             using SqlConnection sql = new(_connectionString);
-            using SqlCommand cmd = new("sp_EnvTypeCreate", sql);
+            using SqlCommand cmd = new("sp_ProjectTypeCreate", sql);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add(new SqlParameter("@id", etype.EnvTypid));
-            cmd.Parameters.Add(new SqlParameter("@Name", etype.EnvTyp));
- 
-           // cmd.Parameters.Add(new SqlParameter("@Created_at", etype.Created_at));
+            cmd.Parameters.Add(new SqlParameter("@id", ptype.ProjTypid));
+            cmd.Parameters.Add(new SqlParameter("@Name", ptype.ProjTyp));
+
+            // cmd.Parameters.Add(new SqlParameter("@Created_at", etype.Created_at));
             var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
             cmd.Parameters.Add(returncode);
             var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
@@ -80,25 +80,25 @@ namespace PICI.Repository
             return;
         }
 
-        //public void DeleteById(int id)
-        //{
-        //    using SqlConnection sql = new(_connectionString);
-        //    using SqlCommand cmd = new("sp_DeleteServerInfo", sql);
-        //    cmd.CommandType = CommandType.StoredProcedure;
-        //    cmd.Parameters.Add(new SqlParameter("@id", id));
-        //    var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-        //    cmd.Parameters.Add(returncode);
-        //    var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-        //    cmd.Parameters.Add(returnpart);
+        public void DeleteById(int id)
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_DeleteProjType", sql);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@id", id));
+            var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+            cmd.Parameters.Add(returncode);
+            var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+            cmd.Parameters.Add(returnpart);
 
-        //    sql.Open();
-        //    cmd.ExecuteNonQuery();
-        //    bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
-        //    bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
-        //    sql.Close();
-        //    Itexists = itExists;
-        //    IsSuccess = isSuccess;
-        //    return;
-        //}
+            sql.Open();
+            cmd.ExecuteNonQuery();
+            bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+            bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+            sql.Close();
+            Itexists = itExists;
+            IsSuccess = isSuccess;
+            return;
+        }
     }
 }

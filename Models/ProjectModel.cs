@@ -25,7 +25,7 @@ namespace PICI.Models
         public string Name { get; set; }
 
         [DataMember(Name = "Techstack")]
-        public string Techstack { get; set; }
+        public int Techstack { get; set; }
 
         [DataMember(Name = "PMName")]
         public Int64 PMName { get; set; }

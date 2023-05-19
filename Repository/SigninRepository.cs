@@ -246,6 +246,7 @@ namespace PICI.Repository
                     cmd.Parameters.AddWithValue("@Password", hashedpassword);
                     cmd.Parameters.AddWithValue("@First_name", user.First_name);
                     cmd.Parameters.AddWithValue("@Last_name", user.Last_name);
+                    cmd.Parameters.AddWithValue("@Role", user.Role);
                     cmd.Parameters.AddWithValue("@active", 1);
                     await sql.OpenAsync();
                     // returncode = new SqlParameter("@ReturnCode", SqlDbType.NVarChar) { Direction = ParameterDirection.Output };
