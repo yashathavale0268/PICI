@@ -612,7 +612,7 @@ namespace PICI.Controllers
             return Ok(msg);
         }
         [HttpPost]
-        [Route("RolePermissions")]
+        [Route("ChnageRolePermissions")]
         public IActionResult BulkInsertOrUpdate([FromQuery] Int64 id = 0 , [FromQuery] Int64 Role = 0, [FromQuery] Int64 Menu =0 , [FromQuery] bool View  = false, [FromQuery] bool Add = false, [FromQuery] bool Update = false, [FromQuery] bool Delete = false)
         {
             var msg = new Message();
