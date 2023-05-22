@@ -43,15 +43,15 @@ namespace PICI.Repository
                 return dataSet;
             }
         }
-        public DataSet GetAllRolePermissions(int pageNumber, int pageSize, string searchTerm,int Role)
+        public DataSet GetAllRolePermissions(int Role)
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_GetAllPermissionsTable_Paginated", sql);
             {
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
-            cmd.Parameters.AddWithValue("@PageSize", pageSize);
-            cmd.Parameters.AddWithValue("@SearchTerm", searchTerm);
+            //cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+            //cmd.Parameters.AddWithValue("@PageSize", pageSize);
+            //cmd.Parameters.AddWithValue("@SearchTerm", searchTerm);
             cmd.Parameters.AddWithValue("@id", Role);
 
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);

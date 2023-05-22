@@ -545,12 +545,12 @@ namespace PICI.Controllers
         //}
         [HttpGet]
         [Route("GetAllRolePermissions")]
-        public IActionResult GetAllRolePermissions([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery] int Role = 0)
+        public IActionResult GetAllRolePermissions([FromQuery] int Role = 0)
         {
             var msg = new Message();
             // Step 8: Call the repository method
             
-             var data= _repository.GetAllRolePermissions(pageNumber, pageSize, searchTerm,Role);
+             var data= _repository.GetAllRolePermissions(Role);
             //bool success = _repository.IsSuccess;
             if (data.Tables.Count>0)
             {
