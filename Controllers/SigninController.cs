@@ -566,6 +566,29 @@ namespace PICI.Controllers
             // Step 9: Return the appropriate response
             return Ok(msg);
         }
+        [HttpGet]
+        [Route("GetAllRolePermissions")]
+        public IActionResult GetAllMenus([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery] int Role = 0)
+        {
+            var msg = new Message();
+            // Step 8: Call the repository method
+            
+             var data= _repository.GetAllRolePermissions(pageNumber, pageSize, searchTerm,Role);
+            //bool success = _repository.IsSuccess;
+            if (data.Tables.Count>0)
+            {
+
+                msg.IsSuccess = true;
+                msg.Data = data;
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = " no permissons set yet ";
+            }
+            // Step 9: Return the appropriate response
+            return Ok(msg);
+        }
         [HttpPost]
         [Route("RolePermissions")]
         public IActionResult BulkInsertOrUpdate(List<RolePermissionsModel> data)
@@ -573,6 +596,28 @@ namespace PICI.Controllers
             var msg = new Message();
             // Step 8: Call the repository method
             _repository.BulkInsertOrUpdate(data);
+            bool success = _repository.IsSuccess;
+            if (success is true)
+            {
+
+                msg.IsSuccess = true;
+                msg.ReturnMessage = " User is Updated Successfully";
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = " per";
+            }
+            // Step 9: Return the appropriate response
+            return Ok(msg);
+        }
+        [HttpPost]
+        [Route("RolePermissions")]
+        public IActionResult BulkInsertOrUpdate([FromQuery] Int64 id = 0 , [FromQuery] Int64 Role = 0, [FromQuery] Int64 Menu =0 , [FromQuery] bool View  = false, [FromQuery] bool Add = false, [FromQuery] bool Update = false, [FromQuery] bool Delete = false)
+        {
+            var msg = new Message();
+            // Step 8: Call the repository method
+            //_repository.BulkInsertOrUpdate(data);
             bool success = _repository.IsSuccess;
             if (success is true)
             {

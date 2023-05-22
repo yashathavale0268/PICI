@@ -289,7 +289,7 @@ namespace PICI.Repository
                 }
             }
         }
-        // Step 1: Create a DataTable object
+ 
         public void BulkInsertOrUpdate(List<RolePermissionsModel> data)
         {
             using (SqlConnection connection = new(_connectionString))
@@ -331,6 +331,40 @@ namespace PICI.Repository
 
                 connection.Close();
 
+            }
+        }
+
+        public void Permissions(Int64 id = 0,Int64 Role = 0,Int64 Menu = 0,bool View = false,bool Add = false,bool Update = false,bool Delete = false)
+        { 
+            using (SqlConnection sql = new(_connectionString))
+            {
+                //string.Join(","
+                using (SqlCommand cmd = new("sp_StatusChange", sql))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    //cmd.Parameters.AddWithValue("@id", comp.Companyid);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@Role", Role);
+                    cmd.Parameters.AddWithValue("@Menu", Menu);
+                    cmd.Parameters.AddWithValue("@View", View);
+                    cmd.Parameters.AddWithValue("@Add", Add);
+                    cmd.Parameters.AddWithValue("@Update", Update);
+                    cmd.Parameters.AddWithValue("@Delete", Delete);
+                    //cmd.Parameters.AddWithValue("@Uniqueid", UniqueId);
+                    //cmd.Parameters.AddWithValue("@SerialNo", SerialNo);
+
+
+                    var returnpart = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(returnpart);
+                    sql.Open();
+                     cmd.ExecuteNonQuery();
+                    sql.Close();
+                    // bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                    bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+                    //  Itexists = itExists;
+                    IsSuccess = isSuccess;
+                }
+                return;
             }
         }
 
