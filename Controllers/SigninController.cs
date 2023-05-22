@@ -566,29 +566,29 @@ namespace PICI.Controllers
             // Step 9: Return the appropriate response
             return Ok(msg);
         }
-        [HttpGet]
-        [Route("GetAllRolePermissions")]
-        public IActionResult GetAllMenus([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery] int Role = 0)
-        {
-            var msg = new Message();
-            // Step 8: Call the repository method
+        //[HttpGet]
+        //[Route("GetAllRolePermissions")]
+        //public IActionResult GetAllMenus([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5, [FromQuery] string searchTerm = null,[FromQuery] int Role = 0)
+        //{
+        //    var msg = new Message();
+        //    // Step 8: Call the repository method
             
-             var data= _repository.GetAllRolePermissions(pageNumber, pageSize, searchTerm,Role);
-            //bool success = _repository.IsSuccess;
-            if (data.Tables.Count>0)
-            {
+        //     var data= _repository.GetAllRolePermissions(pageNumber, pageSize, searchTerm,Role);
+        //    //bool success = _repository.IsSuccess;
+        //    if (data.Tables.Count>0)
+        //    {
 
-                msg.IsSuccess = true;
-                msg.Data = data;
-            }
-            else
-            {
-                msg.IsSuccess = false;
-                msg.ReturnMessage = " no permissons set yet ";
-            }
-            // Step 9: Return the appropriate response
-            return Ok(msg);
-        }
+        //        msg.IsSuccess = true;
+        //        msg.Data = data;
+        //    }
+        //    else
+        //    {
+        //        msg.IsSuccess = false;
+        //        msg.ReturnMessage = " no permissons set yet ";
+        //    }
+        //    // Step 9: Return the appropriate response
+        //    return Ok(msg);
+        //}
         [HttpPost]
         [Route("RolePermissions")]
         public IActionResult BulkInsertOrUpdate(List<RolePermissionsModel> data)
