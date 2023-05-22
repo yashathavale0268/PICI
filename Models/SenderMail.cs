@@ -12,9 +12,9 @@ namespace PICI.Models
         public string Reciever { get; set; }
         public string Pid { get; set; }
 
-        public Int64 Updaterid { get; set; }
-        public Int64 Creatorid { get; set; }
-
+        public int Updaterid { get; set; }
+        public int Creatorid { get; set; }
+        public Int64 Recieverid { get; set; }
         public string UpdaterName { get; set; }
         public string CreatorName { get; set; }
 

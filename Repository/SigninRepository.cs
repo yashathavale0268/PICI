@@ -28,6 +28,23 @@ namespace PICI.Repository
             // jwtBearerTokenSettings = jwtTokenOptions.Value;
         }
 
+        //internal DataSet GetRolePerms(int role, int Menu)
+        //{
+        //    using (SqlConnection sql = new(_connectionString))
+        //    {
+        //        using (SqlCommand cmd = new("sp_GetRolePerms", sql))
+        //        {
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            cmd.Parameters.AddWithValue("@role", role);
+        //            cmd.Parameters.AddWithValue("@menuid", Menu);
+
+        //            SqlDataAdapter adapter = new(cmd);
+        //            DataSet dataSet = new();
+        //            adapter.Fill(dataSet);
+        //            return dataSet;
+        //        }
+        //    }
+        //}
         public DataSet GetAllTables()
         {
             using SqlConnection sql = new(_connectionString);

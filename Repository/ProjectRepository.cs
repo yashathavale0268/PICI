@@ -90,8 +90,8 @@ namespace PICI.Repository
             cmd.Parameters.Add(new SqlParameter("@Techstack", proj.Techstack));
             cmd.Parameters.Add(new SqlParameter("@PMName", proj.PMName));
             cmd.Parameters.Add(new SqlParameter("@Type", proj.Type));
-            cmd.Parameters.Add(new SqlParameter("@Type", proj.CreatedBy));
-            cmd.Parameters.Add(new SqlParameter("@Type", proj.UpdatedBy));
+            cmd.Parameters.Add(new SqlParameter("@CreatedBy", proj.CreatedBy));
+            cmd.Parameters.Add(new SqlParameter("@UpdatedBy", proj.UpdatedBy));
 
 
             var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
@@ -130,20 +130,20 @@ namespace PICI.Repository
             return;
         }
 
-        public async Task<SenderMail> CheckEmails(SenderMail mail)
+        public SenderMail CheckEmails(string type)
         {
             using SqlConnection sql = new(_connectionString);
             using SqlCommand cmd = new("sp_checkemail", sql);
             {
 
                 cmd.CommandType = CommandType.StoredProcedure;
-
-                await sql.OpenAsync();
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                cmd.Parameters.Add(new SqlParameter("@Type",type));
+                sql.Open();
+                SenderMail mail = new();
+                using (var reader =  cmd.ExecuteReader())
                 {
-                    while (await reader.ReadAsync())
-                    {
+                    while ( reader.Read())
+                    { 
                         mail = MapToValue(reader);
                     }
                 }
@@ -165,8 +165,10 @@ namespace PICI.Repository
                 message.Subject = "New Project Added";
                 message.Body = new TextPart("plain")
                 {
-                    Text = $" A new project was created by " + mail.CreatorName + $"with Project ID " + mail.Pid + $" AND Name" +
-                    mail.SubjectName + $"Created on " + mail.Created_on.Date
+                    Text = $" A new project was created by " + mail.CreatorName + 
+                    $" with Project ID " + mail.Pid + $" " +
+                    $" AND Name " + mail.SubjectName + $"  " +
+                    $" Created on " + mail.Created_on.Date
                 };
 
                 using (var client = new SmtpClient())
@@ -186,10 +188,10 @@ namespace PICI.Repository
                 message.Subject = "New Project Added";
                 message.Body = new TextPart("plain")
                 {
-                    Text = $" A Entry for Project ID" + mail.Pid + 
-                    $" AND Name" +mail.SubjectName + 
+                    Text = $" A Entry for Project ID " + mail.Pid + 
+                    $" AND Name " +mail.SubjectName + 
                     $"by " + mail.UpdaterName + 
-                    $"Updated on " + mail.Updated_on.Date
+                    $" Updated on " + mail.Updated_on.Date
                 };
 
                 using (var client = new SmtpClient())
@@ -210,9 +212,10 @@ namespace PICI.Repository
                     Email1= reader.IsDBNull(reader.GetOrdinal("Email1")) ? null : (string)reader["Email1"],
                     Email2 = reader.IsDBNull(reader.GetOrdinal("Email2")) ? null : (string)reader["Email2"],
                     SubjectName= reader.IsDBNull(reader.GetOrdinal("SubjectName")) ? null : (string)reader["SubjectName"],
-                    Creatorid= reader.IsDBNull(reader.GetOrdinal("Creatorid")) ? 0 : (Int64)reader["Creatorid"],
-                     Updaterid= reader.IsDBNull(reader.GetOrdinal("Updaterid")) ? 0 : (Int64)reader["Updaterid"],
-                     Reciever= reader.IsDBNull(reader.GetOrdinal("Reciever")) ? null : (string)reader["Reciever"],
+                    Creatorid= reader.IsDBNull(reader.GetOrdinal("Creatorid")) ? 0 : (int)reader["Creatorid"],
+                     Updaterid= reader.IsDBNull(reader.GetOrdinal("Updaterid")) ? 0 : (int)reader["Updaterid"],
+                    Recieverid = reader.IsDBNull(reader.GetOrdinal("Recieverid")) ? 0 : (Int64)reader["Recieverid"],
+                    Reciever = reader.IsDBNull(reader.GetOrdinal("Reciever")) ? null : (string)reader["Reciever"],
                     Created_on = (reader["Created_on"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_on"]) : DateTime.MinValue,
                     Updated_on = (reader["Updated_on"] != DBNull.Value) ? Convert.ToDateTime(reader["Updated_on"]) : DateTime.MinValue,
                     UpdaterName = reader.IsDBNull(reader.GetOrdinal("UpdaterName")) ? null : (string)reader["UpdaterName"],

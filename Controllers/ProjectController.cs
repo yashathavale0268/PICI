@@ -92,9 +92,11 @@ namespace PICI.Controllers
             {
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " new entry succesfully registered";
-                //SenderMail mail = new();
-                
-                
+                SenderMail mail = new();
+                 mail = _repository.CheckEmails("Create");
+
+                _repository.SendUpdatesEmail(mail);
+
             }
             else
             {
@@ -125,6 +127,11 @@ namespace PICI.Controllers
             {
                 msg.IsSuccess = true;
                 msg.ReturnMessage = " update successful";
+
+                SenderMail mail = new();
+                mail = _repository.CheckEmails("Update");
+
+                _repository.SendUpdatesEmail(mail);
             }
             else
             {
