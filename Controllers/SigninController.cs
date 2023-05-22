@@ -549,18 +549,19 @@ namespace PICI.Controllers
         {
             var msg = new Message();
             // Step 8: Call the repository method
-            _repository.GetAllRolePermissions(pageNumber, pageSize, searchTerm,Role);
+            
+             var data= _repository.GetAllRolePermissions(pageNumber, pageSize, searchTerm,Role);
             bool success = _repository.IsSuccess;
             if (success is true)
             {
 
                 msg.IsSuccess = true;
-                msg.ReturnMessage = " User is Updated Successfully";
+                msg.Data = data;
             }
             else
             {
                 msg.IsSuccess = false;
-                msg.ReturnMessage = " per";
+                msg.ReturnMessage = " ";
             }
             // Step 9: Return the appropriate response
             return Ok(msg);
