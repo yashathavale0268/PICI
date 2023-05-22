@@ -134,35 +134,35 @@ namespace PICI.Controllers
             return Ok(msg);
         }
 
-        //public async Task<IEnumerable<SenderMail>> GetCurrentInfo(SenderMail mail)
-        //{
-        //    var msg = new Message();
-        //    //SenderMail mail = new();
-        //    mail = await _repository.getcurretinfo(mail);
-            
+        public async Task<IEnumerable<SenderMail>> GetCurrentInfo(SenderMail mail)
+        {
+            var msg = new Message();
+            //SenderMail mail = new();
+            mail =_repository.CheckEmails();
 
-        //    //_repository.Insert(mail);
-        //    //bool exists = _repository.Itexists;
-        //    //bool success = _repository.IsSuccess;
 
-        //    if (exists is true)
-        //    {
-        //        msg.IsSuccess = false;
-        //        msg.ReturnMessage = "Item alredy registered";
-        //    }
-        //    else if (success is true)
-        //    {
-        //        msg.IsSuccess = true;
-        //        msg.ReturnMessage = " update successful";
-        //        await _repository.SendUpdatesEmail(mail);
-        //    }
-        //    else
-        //    {
-        //        msg.IsSuccess = false;
-        //        msg.ReturnMessage = "registeration unsucessfull";
-        //    }
-        //    return Ok(msg);
-        //}
+            //_repository.Insert(mail);
+            //bool exists = _repository.Itexists;
+            //bool success = _repository.IsSuccess;
+
+            if (exists is true)
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "Item alredy registered";
+            }
+            else if (success is true)
+            {
+                msg.IsSuccess = true;
+                msg.ReturnMessage = " update successful";
+                await _repository.SendUpdatesEmail(mail);
+            }
+            else
+            {
+                msg.IsSuccess = false;
+                msg.ReturnMessage = "registeration unsucessfull";
+            }
+            return Ok(msg);
+        }
 
 
         //// DELETE api/<ProjectController>/5

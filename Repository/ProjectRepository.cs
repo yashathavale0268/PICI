@@ -50,7 +50,7 @@ namespace PICI.Repository
                     cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
                     cmd.Parameters.AddWithValue("@PageSize", pageSize);
                     cmd.Parameters.AddWithValue("@SearchTerm", searchTerm);
-                    
+
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet dataSet = new();
                     adapter.Fill(dataSet);
@@ -84,7 +84,7 @@ namespace PICI.Repository
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add(new SqlParameter("@id", proj.Pmid));
             cmd.Parameters.Add(new SqlParameter("@Pid", proj.Pid));
-           // cmd.Parameters.Add(new SqlParameter("@CreatedDate", proj.CreatedDate));
+            // cmd.Parameters.Add(new SqlParameter("@CreatedDate", proj.CreatedDate));
             cmd.Parameters.Add(new SqlParameter("@CID", proj.CID));
             cmd.Parameters.Add(new SqlParameter("@Name", proj.Name));
             cmd.Parameters.Add(new SqlParameter("@Techstack", proj.Techstack));
@@ -106,7 +106,7 @@ namespace PICI.Repository
             sql.Close();
             Itexists = itExists;
             IsSuccess = isSuccess;
-            return ;
+            return;
         }
 
         public void DeleteById(int id)
@@ -129,7 +129,32 @@ namespace PICI.Repository
             IsSuccess = isSuccess;
             return;
         }
-        internal async Task SendUpdatesEmail(SenderMail mail)
+
+        public async Task<SenderMail> CheckEmails(SenderMail mail)
+        {
+            using SqlConnection sql = new(_connectionString);
+            using SqlCommand cmd = new("sp_checkemail", sql);
+            {
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                await sql.OpenAsync();
+
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        mail = MapToValue(reader);
+                    }
+                }
+
+                return mail;
+            }
+        }
+
+        
+
+        internal void SendUpdatesEmail(SenderMail mail)
         {
             if (mail.CreatorName is not null)
             {
@@ -147,10 +172,10 @@ namespace PICI.Repository
                 using (var client = new SmtpClient())
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                    await client.ConnectAsync("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-                    await client.AuthenticateAsync("kayley.rosenbaum19@ethereal.email", "C95Zf2Cpb46SkgyJW6");
-                    await client.SendAsync(message);
-                    await client.DisconnectAsync(true);
+                     client.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
+                     client.Authenticate("kayley.rosenbaum19@ethereal.email", "C95Zf2Cpb46SkgyJW6");
+                    client.Send(message);
+                     client.Disconnect(true);
                 }
             }
             else if (mail.UpdaterName is not null) {
@@ -170,44 +195,72 @@ namespace PICI.Repository
                 using (var client = new SmtpClient())
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                    await client.ConnectAsync("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-                    await client.AuthenticateAsync("kayley.rosenbaum19@ethereal.email", "C95Zf2Cpb46SkgyJW6");
-                    await client.SendAsync(message);
-                    await client.DisconnectAsync(true);
+                     client.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
+                    client.Authenticate("kayley.rosenbaum19@ethereal.email", "C95Zf2Cpb46SkgyJW6");
+                     client.Send(message);
+                     client.Disconnect(true);
                 }
             }
         }
-        //internal async Task<UserModel> GetByemail(SenderMail email)
-        //{
-        //    using (SqlConnection sql = new(_connectionString))
-        //    using (SqlCommand cmd = new("sp_checkemail", sql))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@uid");
 
-        //        var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-        //        cmd.Parameters.Add(returncode);
-        //        await sql.OpenAsync();
-        //        UserModel response = new();
-        //        // var response = new List<AssetModel>();
-        //        using (var reader = await cmd.ExecuteReaderAsync())
-        //        {
-        //            while (await reader.ReadAsync())
-        //            {
-        //                response = getnamebyemail(reader);
-        //            }
-        //        }
-        //        await sql.CloseAsync();
+        internal SenderMail MapToValue(SqlDataReader reader)
+        {
+                return new SenderMail()
+                {
+                    Email1= reader.IsDBNull(reader.GetOrdinal("Email1")) ? null : (string)reader["Email1"],
+                    Email2 = reader.IsDBNull(reader.GetOrdinal("Email2")) ? null : (string)reader["Email2"],
+                    //Userid = (int)reader["UserId"],
+                    //Email = reader.IsDBNull(reader.GetOrdinal("Email")) ? null : (string)reader["Email"],
+                    //Username = reader.IsDBNull(reader.GetOrdinal("Username")) ? null : (string)reader["Username"],
+                    //First_name = reader.IsDBNull(reader.GetOrdinal("First_name")) ? null : (string)reader["First_name"],
+                    //Last_name = reader.IsDBNull(reader.GetOrdinal("Last_name")) ? null : (string)reader["Last_name"],
+                    ////Department = reader.IsDBNull(reader.GetOrdinal("Department")) ? 0 : (int)reader["Department"],
+                    ////Branch = reader.IsDBNull(reader.GetOrdinal("Branch")) ? 0 : (int)reader["Branch"],
+                    ////Floor = reader.IsDBNull(reader.GetOrdinal("Floor")) ? null : (string)reader["Floor"],
+                    ////Company = reader.IsDBNull(reader.GetOrdinal("Company")) ? 0 : (int)reader["Company"],
+                    //Role = reader.IsDBNull(reader.GetOrdinal("Role")) ? 0 : (int)reader["Role"],
+                    //RoleName = reader.IsDBNull(reader.GetOrdinal("RoleName")) ? null : (string)reader["RoleName"],
+                    ////Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
+                    ////active = (bool)reader["active"],
+                    ////DepartmentName = reader.IsDBNull(reader.GetOrdinal("DepartmentName")) ? null : (string)reader["DepartmentName"],
+                    ////CompanyName = reader.IsDBNull(reader.GetOrdinal("CompanyName")) ? null : (string)reader["CompanyName"],
+                    ////BranchName = reader.IsDBNull(reader.GetOrdinal("BranchName")) ? null : (string)reader["BranchName"],
+                    //Full_name = reader.IsDBNull(reader.GetOrdinal("Full_name")) ? null : (string)reader["Full_name"],
+                    //totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"]
+                };
+            }
 
-        //        bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
+            //internal async Task<UserModel> GetByemail(SenderMail email)
+            //{
+            //    using (SqlConnection sql = new(_connectionString))
+            //    using (SqlCommand cmd = new("sp_checkemail", sql))
+            //    {
+            //        cmd.CommandType = CommandType.StoredProcedure;
+            //        cmd.Parameters.AddWithValue("@uid");
 
-        //        Itexists = itexists;
+            //        var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+            //        cmd.Parameters.Add(returncode);
+            //        await sql.OpenAsync();
+            //        UserModel response = new();
+            //        // var response = new List<AssetModel>();
+            //        using (var reader = await cmd.ExecuteReaderAsync())
+            //        {
+            //            while (await reader.ReadAsync())
+            //            {
+            //                response = getnamebyemail(reader);
+            //            }
+            //        }
+            //        await sql.CloseAsync();
+
+            //        bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
+
+            //        Itexists = itexists;
 
 
-        //        return response;
-        //    }
+            //        return response;
+            //    }
 
-        //}
+            //}
 
-    }
+        }
 }

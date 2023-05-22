@@ -11,6 +11,10 @@ namespace PICI.Models
         public string Email2 { get; set; }
         public string Reciever { get; set; }
         public string Pid { get; set; }
+
+        public Int64 Updaterid { get; set; }
+        public Int64 Creatorid { get; set; }
+
         public string UpdaterName { get; set; }
         public string CreatorName { get; set; }
 
