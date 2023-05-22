@@ -98,6 +98,41 @@ namespace PICI.Repository
             }
         }
 
+        public void NewMenu(int Menuid,string Menu,string Description,string PageUrl,string Icon, int sortorder) 
+        {
+                using (SqlConnection sql = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("sp_GetAllMenus", sql))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@id", Menuid));
+                        cmd.Parameters.Add(new SqlParameter("@Menu", Menu));
+                        cmd.Parameters.Add(new SqlParameter("@Description", Description));
+                        cmd.Parameters.Add(new SqlParameter("@PageUrl", PageUrl));
+                        cmd.Parameters.Add(new SqlParameter("@Icon", Icon));
+                        cmd.Parameters.Add(new SqlParameter("@sortorder", sortorder));
+                        
+
+                        // cmd.Parameters.Add(new SqlParameter("@Created_at", etype.Created_at));
+                        var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        cmd.Parameters.Add(returncode);
+                        var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                        cmd.Parameters.Add(returnpart);
+
+                        sql.Open();
+                        cmd.ExecuteNonQuery();
+                        bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
+                        bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
+                        sql.Close();
+                        Itexists = itExists;
+                        IsSuccess = isSuccess;
+                        
+
+                    }
+                return;
+            }
+
+        }
 
         //public MenuModel MapToValue(SqlDataReader reader)
         //{

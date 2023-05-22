@@ -209,6 +209,16 @@ namespace PICI.Repository
                 {
                     Email1= reader.IsDBNull(reader.GetOrdinal("Email1")) ? null : (string)reader["Email1"],
                     Email2 = reader.IsDBNull(reader.GetOrdinal("Email2")) ? null : (string)reader["Email2"],
+                    SubjectName= reader.IsDBNull(reader.GetOrdinal("SubjectName")) ? null : (string)reader["SubjectName"],
+                    Creatorid= reader.IsDBNull(reader.GetOrdinal("Creatorid")) ? 0 : (Int64)reader["Creatorid"],
+                     Updaterid= reader.IsDBNull(reader.GetOrdinal("Updaterid")) ? 0 : (Int64)reader["Updaterid"],
+                     Reciever= reader.IsDBNull(reader.GetOrdinal("Reciever")) ? null : (string)reader["Reciever"],
+                    Created_on = (reader["Created_on"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_on"]) : DateTime.MinValue,
+                    Updated_on = (reader["Updated_on"] != DBNull.Value) ? Convert.ToDateTime(reader["Updated_on"]) : DateTime.MinValue,
+                    UpdaterName = reader.IsDBNull(reader.GetOrdinal("UpdaterName")) ? null : (string)reader["UpdaterName"],
+                    CreatorName = reader.IsDBNull(reader.GetOrdinal("CreatorName")) ? null : (string)reader["CreatorName"],
+                    Pid= reader.IsDBNull(reader.GetOrdinal("Pid")) ? null : (string)reader["Pid"],
+
                     //Userid = (int)reader["UserId"],
                     //Email = reader.IsDBNull(reader.GetOrdinal("Email")) ? null : (string)reader["Email"],
                     //Username = reader.IsDBNull(reader.GetOrdinal("Username")) ? null : (string)reader["Username"],
