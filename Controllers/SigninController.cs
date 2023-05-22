@@ -551,8 +551,8 @@ namespace PICI.Controllers
             // Step 8: Call the repository method
             
              var data= _repository.GetAllRolePermissions(pageNumber, pageSize, searchTerm,Role);
-            bool success = _repository.IsSuccess;
-            if (success is true)
+            //bool success = _repository.IsSuccess;
+            if (data.Tables.Count>0)
             {
 
                 msg.IsSuccess = true;
@@ -561,7 +561,7 @@ namespace PICI.Controllers
             else
             {
                 msg.IsSuccess = false;
-                msg.ReturnMessage = " ";
+                msg.ReturnMessage = " no permissons set yet ";
             }
             // Step 9: Return the appropriate response
             return Ok(msg);
