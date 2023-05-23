@@ -203,7 +203,7 @@ namespace PICI.Repository
             }
             else if (mail.Type == "Update") {
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("Kayley Rosenbaum", "project.tracker@think.tank"));
+                message.From.Add(new MailboxAddress("bhavin p", "bhavin.parmar@think.tank"));
                 message.To.Add(new MailboxAddress("Updater", mail.Email1));
                 message.To.Add(new MailboxAddress("reciever", mail.Email2));
                 string templatePath = mail.TemplateBody;
@@ -226,10 +226,10 @@ namespace PICI.Repository
                 using (var client = new SmtpClient())
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                    client.Connect("120.72.95.94", 587,false);//SecureSocketOptions.None
+                    client.Connect("120.72.95.94", 587, SecureSocketOptions.Auto);//SecureSocketOptions.None
                     //client.AuthenticationMechanisms.Clear();
                     //client.Connect("smtp.example.com", 587, SecureSocketOptions.None);
-                    //client.Authenticate("project.tracker@think.tank", "");
+                    client.Authenticate("bhavin.parmar@think.tank", "3st[(B#a4,Z6FG;*");
                     client.Send(message);
                      client.Disconnect(true);
                 }
