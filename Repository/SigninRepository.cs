@@ -351,7 +351,7 @@ namespace PICI.Repository
             }
         }
 
-        public void Permissions(Int64 id = 0,Int64 Role = 0,Int64 Menu = 0,bool View = false,bool Add = false,bool Update = false,bool Delete = false)
+        public async Task Permissions(Int64 id = 0,Int64 Role = 0,Int64 Menu = 0,bool View = false,bool Add = false,bool Update = false,bool Delete = false)
         { 
             using (SqlConnection sql = new(_connectionString))
             {
@@ -373,15 +373,15 @@ namespace PICI.Repository
 
                     var returnpart = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                     cmd.Parameters.Add(returnpart);
-                    sql.Open();
-                     cmd.ExecuteNonQuery();
-                    sql.Close();
+                    await sql.OpenAsync();
+                     await cmd.ExecuteNonQueryAsync();
+                    await sql.CloseAsync();
                     // bool itExists = returncode?.Value is not DBNull && (bool)returncode.Value;
                     bool isSuccess = returnpart?.Value is not DBNull && (bool)returnpart.Value;
                     //  Itexists = itExists;
                     IsSuccess = isSuccess;
                 }
-                return;
+                return ;
             }
         }
 

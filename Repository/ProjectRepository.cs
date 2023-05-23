@@ -160,7 +160,7 @@ namespace PICI.Repository
             if (mail.Type=="Create")
             {
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("Kayley Rosenbaum", "kayley.rosenbaum19@ethereal.email"));
+                message.From.Add(new MailboxAddress("project tracker", "project.tracker@think.tank"));
                 message.To.Add(new MailboxAddress("creator", mail.Email1));
                 message.To.Add(new MailboxAddress("reciever", mail.Email2));
 
@@ -194,15 +194,16 @@ namespace PICI.Repository
                 using (var client = new SmtpClient())
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                     client.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-                     client.Authenticate("kayley.rosenbaum19@ethereal.email", "C95Zf2Cpb46SkgyJW6");
+                     client.Connect("120.72.95.94", 587,false);//StartTls,SecureSocketOptions.None
+                                                           // client.Authenticate("project.tracker@think.tank", "");
+                    ///  client.AuthenticationMechanisms.Clear();
                     client.Send(message);
                      client.Disconnect(true);
                 }
             }
             else if (mail.Type == "Update") {
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("Kayley Rosenbaum", "kayley.rosenbaum19@ethereal.email"));
+                message.From.Add(new MailboxAddress("Kayley Rosenbaum", "project.tracker@think.tank"));
                 message.To.Add(new MailboxAddress("Updater", mail.Email1));
                 message.To.Add(new MailboxAddress("reciever", mail.Email2));
                 string templatePath = mail.TemplateBody;
@@ -225,9 +226,11 @@ namespace PICI.Repository
                 using (var client = new SmtpClient())
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                     client.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-                    client.Authenticate("kayley.rosenbaum19@ethereal.email", "C95Zf2Cpb46SkgyJW6");
-                     client.Send(message);
+                    client.Connect("120.72.95.94", 587,false);//SecureSocketOptions.None
+                    //client.AuthenticationMechanisms.Clear();
+                    //client.Connect("smtp.example.com", 587, SecureSocketOptions.None);
+                    //client.Authenticate("project.tracker@think.tank", "");
+                    client.Send(message);
                      client.Disconnect(true);
                 }
             }

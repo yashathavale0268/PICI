@@ -606,29 +606,29 @@ namespace PICI.Controllers
             else
             {
                 msg.IsSuccess = false;
-                msg.ReturnMessage = " per";
+                msg.ReturnMessage = " perissons not inserted ";
             }
             // Step 9: Return the appropriate response
             return Ok(msg);
         }
         [HttpPost]
-        [Route("ChnageRolePermissions")]
-        public IActionResult BulkInsertOrUpdate([FromQuery] Int64 id = 0 , [FromQuery] Int64 Role = 0, [FromQuery] Int64 Menu =0 , [FromQuery] bool View  = false, [FromQuery] bool Add = false, [FromQuery] bool Update = false, [FromQuery] bool Delete = false)
+        [Route("ChangeRolePermissions")]
+        public async Task<ActionResult> permissionbuttons([FromQuery] Int64 id = 0 , [FromQuery] Int64 Role = 0, [FromQuery] Int64 Menu =0 , [FromQuery] bool View  = false, [FromQuery] bool Add = false, [FromQuery] bool Update = false, [FromQuery] bool Delete = false)
         {
             var msg = new Message();
             // Step 8: Call the repository method
-            //_repository.BulkInsertOrUpdate(data);
+            await _repository.Permissions(id,Role,Menu,View,Add,Update,Delete);
             bool success = _repository.IsSuccess;
             if (success is true)
             {
 
                 msg.IsSuccess = true;
-                msg.ReturnMessage = " User is Updated Successfully";
+                msg.ReturnMessage = "Updated Successfully";
             }
             else
             {
                 msg.IsSuccess = false;
-                msg.ReturnMessage = " per";
+                msg.ReturnMessage = " UPdate unsuccessfull ";
             }
             // Step 9: Return the appropriate response
             return Ok(msg);
