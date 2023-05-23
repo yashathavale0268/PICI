@@ -140,7 +140,7 @@ namespace PICI.Controllers
             _repository.DeleteById(id);
             bool exists = _repository.Itexists;
             bool success = _repository.IsSuccess;
-            if (exists is true)
+            if (exists is false)
             {
                 msg.IsSuccess = false;
                 msg.ReturnMessage = "entry doesn't exist";

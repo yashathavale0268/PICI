@@ -112,7 +112,7 @@ namespace PICI.Repository
             cmd.Parameters.Add(new SqlParameter("@id", id));
             var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
             cmd.Parameters.Add(returncode);
-            var returnpart = new SqlParameter("@success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+            var returnpart = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
             cmd.Parameters.Add(returnpart);
 
             sql.Open();
