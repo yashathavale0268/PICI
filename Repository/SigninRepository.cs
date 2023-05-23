@@ -712,19 +712,11 @@ namespace PICI.Repository
                 Username = reader.IsDBNull(reader.GetOrdinal("Username")) ? "N/A" : (string)reader["Username"],
                 First_name = reader.IsDBNull(reader.GetOrdinal("First_name")) ? "N/A" : (string)reader["First_name"],
                 Last_name = reader.IsDBNull(reader.GetOrdinal("Last_name")) ? "N/A" : (string)reader["Last_name"],
-                //Department = reader.IsDBNull(reader.GetOrdinal("Department")) ? 0 : (int)reader["Department"],
-                //Branch = reader.IsDBNull(reader.GetOrdinal("Branch")) ? 0 : (int)reader["Branch"],
-                //Floor = reader.IsDBNull(reader.GetOrdinal("Floor")) ? "N/A" : (string)reader["Floor"],
-                //Company = reader.IsDBNull(reader.GetOrdinal("Company")) ? 0 : (int)reader["Company"],
                 Role = reader.IsDBNull(reader.GetOrdinal("Role")) ? 0 : (int)reader["Role"],
                 RoleName = reader.IsDBNull(reader.GetOrdinal("RoleName")) ? "N/A" : (string)reader["RoleName"],
+                Full_name = reader.IsDBNull(reader.GetOrdinal("Full_name")) ? "N/A" : (string)reader["Full_name"],
                 // Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
                 //active = (bool)reader["active"],
-                //DepartmentName = reader.IsDBNull(reader.GetOrdinal("DepartmentName")) ? "N/A" : (string)reader["DepartmentName"],
-                //CompanyName = reader.IsDBNull(reader.GetOrdinal("CompanyName")) ? "N/A" : (string)reader["CompanyName"],
-                //BranchName = reader.IsDBNull(reader.GetOrdinal("BranchName")) ? "N/A" : (string)reader["BranchName"],
-                Full_name = reader.IsDBNull(reader.GetOrdinal("Full_name")) ? "N/A" : (string)reader["Full_name"],
-
             };
         }
         private UserModel getnamebyemail(SqlDataReader reader)
