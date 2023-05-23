@@ -19,7 +19,9 @@ namespace PICI.Models
         public string CreatorName { get; set; }
 
         public string SubjectName { get; set; }
-
+        public string Type { get; set; }
+        public string Subject { get; set; }
+        public string TemplateBody { get; set; }
         public DateTimeOffset Created_on { get; set; }
         public DateTimeOffset Updated_on { get; set; }
     }

@@ -20,6 +20,7 @@ namespace PICI.Repository
         {
             _connectionString = configuration.GetConnectionString("MainCon");
 
+
         }
 
         internal DataSet GetRolePerms(int role, int Menu)
@@ -156,20 +157,39 @@ namespace PICI.Repository
 
         internal void SendUpdatesEmail(SenderMail mail)
         {
-            if (mail.CreatorName is not null)
+            if (mail.Type=="Create")
             {
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("Kayley Rosenbaum", "kayley.rosenbaum19@ethereal.email"));
                 message.To.Add(new MailboxAddress("creator", mail.Email1));
                 message.To.Add(new MailboxAddress("reciever", mail.Email2));
-                message.Subject = "New Project Added";
-                message.Body = new TextPart("plain")
+
+                var templatePath = mail.TemplateBody;
+                var templateContent = System.IO.File.ReadAllText(templatePath);
+                var modifiedContent = templateContent//.Replace("{{Placeholder}}", "Dynamic Content")
+                    .Replace("{{CreatorName}}", mail.CreatorName)
+                    .Replace("{{Pid}}", mail.Pid)
+                    .Replace("{{SubjectName}}", mail.SubjectName)
+                    .Replace("{{Created_on}}", mail.Created_on.ToString("yyyy-mm-dd"));
+
+
+                // Set the HTML body
+                var body = new TextPart("html")
                 {
-                    Text = $" A new project was created by " + mail.CreatorName + 
-                    $" with Project ID " + mail.Pid + $" " +
-                    $" AND Name " + mail.SubjectName + $"  " +
-                    $" Created on " + mail.Created_on.Date
+                    Text = modifiedContent
                 };
+                message.Body = body;
+                message.Subject = mail.Subject;
+                //message.Body = new TextPart("plain")
+                //{
+                //    Text = $" A new project was created by " + mail.CreatorName + 
+                //    $" " +
+                //    $"with Project ID " + mail.Pid + $" " +
+                //    $" " +
+                //    $"AND Name " + mail.SubjectName + $"  " +
+                //    $" " +
+                //    $"Created on " + mail.Created_on.Date
+                //};
 
                 using (var client = new SmtpClient())
                 {
@@ -180,19 +200,27 @@ namespace PICI.Repository
                      client.Disconnect(true);
                 }
             }
-            else if (mail.UpdaterName is not null) {
+            else if (mail.Type == "Update") {
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("Kayley Rosenbaum", "kayley.rosenbaum19@ethereal.email"));
                 message.To.Add(new MailboxAddress("Updater", mail.Email1));
                 message.To.Add(new MailboxAddress("reciever", mail.Email2));
-                message.Subject = "New Project Added";
-                message.Body = new TextPart("plain")
+                string templatePath = mail.TemplateBody;
+                var templateContent = templatePath;
+                var modifiedContent = templateContent//.Replace("{{Placeholder}}", "Dynamic Content")
+                    .Replace("{{UpdaterName}}", mail.UpdaterName)
+                    .Replace("{{Pid}}", mail.Pid)
+                    .Replace("{{SubjectName}}", mail.SubjectName)
+                    .Replace("{{Updated_on}}", mail.Updated_on.ToString("yyyy-mm-dd"));
+
+
+                // Set the HTML body
+                var body = new TextPart("html")
                 {
-                    Text = $" A Entry for Project ID " + mail.Pid + 
-                    $" AND Name " +mail.SubjectName + 
-                    $"by " + mail.UpdaterName + 
-                    $" Updated on " + mail.Updated_on.Date
+                    Text = modifiedContent
                 };
+                message.Body = body;
+                message.Subject = mail.Subject;
 
                 using (var client = new SmtpClient())
                 {
@@ -221,25 +249,10 @@ namespace PICI.Repository
                     UpdaterName = reader.IsDBNull(reader.GetOrdinal("UpdaterName")) ? null : (string)reader["UpdaterName"],
                     CreatorName = reader.IsDBNull(reader.GetOrdinal("CreatorName")) ? null : (string)reader["CreatorName"],
                     Pid= reader.IsDBNull(reader.GetOrdinal("Pid")) ? null : (string)reader["Pid"],
+                    Type =reader.IsDBNull(reader.GetOrdinal("Type"))? null :(string)reader["Type"],
+                    Subject = reader.IsDBNull(reader.GetOrdinal("Subject")) ? null : (string)reader["Subject"],
+                    TemplateBody = reader.IsDBNull(reader.GetOrdinal("TemplateBody")) ? null : (string)reader["TemplateBody"],
 
-                    //Userid = (int)reader["UserId"],
-                    //Email = reader.IsDBNull(reader.GetOrdinal("Email")) ? null : (string)reader["Email"],
-                    //Username = reader.IsDBNull(reader.GetOrdinal("Username")) ? null : (string)reader["Username"],
-                    //First_name = reader.IsDBNull(reader.GetOrdinal("First_name")) ? null : (string)reader["First_name"],
-                    //Last_name = reader.IsDBNull(reader.GetOrdinal("Last_name")) ? null : (string)reader["Last_name"],
-                    ////Department = reader.IsDBNull(reader.GetOrdinal("Department")) ? 0 : (int)reader["Department"],
-                    ////Branch = reader.IsDBNull(reader.GetOrdinal("Branch")) ? 0 : (int)reader["Branch"],
-                    ////Floor = reader.IsDBNull(reader.GetOrdinal("Floor")) ? null : (string)reader["Floor"],
-                    ////Company = reader.IsDBNull(reader.GetOrdinal("Company")) ? 0 : (int)reader["Company"],
-                    //Role = reader.IsDBNull(reader.GetOrdinal("Role")) ? 0 : (int)reader["Role"],
-                    //RoleName = reader.IsDBNull(reader.GetOrdinal("RoleName")) ? null : (string)reader["RoleName"],
-                    ////Created_at = (reader["Created_at"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_at"]) : DateTime.MinValue,
-                    ////active = (bool)reader["active"],
-                    ////DepartmentName = reader.IsDBNull(reader.GetOrdinal("DepartmentName")) ? null : (string)reader["DepartmentName"],
-                    ////CompanyName = reader.IsDBNull(reader.GetOrdinal("CompanyName")) ? null : (string)reader["CompanyName"],
-                    ////BranchName = reader.IsDBNull(reader.GetOrdinal("BranchName")) ? null : (string)reader["BranchName"],
-                    //Full_name = reader.IsDBNull(reader.GetOrdinal("Full_name")) ? null : (string)reader["Full_name"],
-                    //totalrecord = reader.IsDBNull(reader.GetOrdinal("totalrecord")) ? 0 : (int)reader["totalrecord"]
                 };
             }
 
