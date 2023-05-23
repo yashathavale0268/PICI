@@ -845,6 +845,7 @@ namespace PICI.Repository
                     //command.Parameters.AddWithValue("@Password", hashedpassword);
                     command.Parameters.AddWithValue("@First_name", user.First_name);
                     command.Parameters.AddWithValue("@Last_name", user.Last_name);
+                    command.Parameters.AddWithValue("@Role", user.Role);
                     //command.Parameters.AddWithValue("@Dep", user.Department);
                     //command.Parameters.AddWithValue("@Branch", user.Branch);
                     //command.Parameters.AddWithValue("@Floor", user.Floor);
