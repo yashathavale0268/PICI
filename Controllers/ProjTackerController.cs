@@ -39,10 +39,10 @@ namespace PICI.Controllers
 
         // GET: api/<ProjTackerController>
         [HttpGet("GetAllProjTracker")]
-        public IActionResult GetprojTracker([FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 0, [FromQuery] string searchTerm = null)
+        public IActionResult GetprojTracker([FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 0, [FromQuery] string searchTerm = null,bool Export =false)
         {
             var msg = new Message();
-            var GetDets = _repository.SearchProjTracker(pageNumber, pageSize, searchTerm);
+            var GetDets = _repository.SearchProjTracker(pageNumber, pageSize, searchTerm,Export);
             if (GetDets.Tables.Count > 0)
             {
                 msg.IsSuccess = true;

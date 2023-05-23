@@ -37,7 +37,7 @@ namespace PICI.Repository
                 }
             }
         }
-        internal DataSet SearchProjTracker(int pageNumber, int pageSize, string searchTerm)
+        internal DataSet SearchProjTracker(int pageNumber, int pageSize, string searchTerm,bool Export)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
@@ -47,7 +47,7 @@ namespace PICI.Repository
                     cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
                     cmd.Parameters.AddWithValue("@PageSize", pageSize);
                     cmd.Parameters.AddWithValue("@SearchTerm", searchTerm);
-
+                    cmd.Parameters.AddWithValue("@Export", Export);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataSet dataSet = new();
                     adapter.Fill(dataSet);
