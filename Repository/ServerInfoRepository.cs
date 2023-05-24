@@ -88,6 +88,8 @@ namespace PICI.Repository
             cmd.Parameters.Add(new SqlParameter("@Envloc", serv.Envlocation));
             cmd.Parameters.Add(new SqlParameter("@Backup", serv.BackupPath));
             cmd.Parameters.Add(new SqlParameter("@Desc", serv.Description));
+            cmd.Parameters.Add(new SqlParameter("@CreatedBy", serv.CreatedBy));
+            cmd.Parameters.Add(new SqlParameter("@UpdatedBy", serv.UpdatedBy));
             //cmd.Parameters.Add(new SqlParameter("@Created_at", serv.Created_at));
             var returncode = new SqlParameter("@Exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
             cmd.Parameters.Add(returncode);

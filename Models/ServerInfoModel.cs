@@ -30,5 +30,16 @@ namespace PICI.Models
 
     [DataMember(Name = "Created_at")]
     public string Created_at { get; set; }
+        [DataMember(Name = "Created_on")]
+        public string Created_on { get; set; }
+        [DataMember(Name = "Updateded_on")]
+        public string Updated_on { get; set; }
+
+        [DataMember(Name = "ServInfoid")]
+        public Int64 CreatedBy { get; set; }
+
+        [DataMember(Name = "ServInfoid")]
+        public Int64 UpdatedBy { get; set; }
+
     }
 }

@@ -18,6 +18,9 @@ namespace PICI.Models
         [DataMember(Name = "CreatedDate")]
         public DateTime CreatedDate { get; set; }
 
+        [DataMember(Name = "UpdatedDate")]
+        public DateTime UpdatedDate { get; set; }
+
         [DataMember(Name = "CID")]
         public Int64 CID { get; set; }
 
