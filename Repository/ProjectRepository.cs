@@ -206,7 +206,7 @@ namespace PICI.Repository
             {
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("project tracker", "project.tracker@think.tank"));
-                message.To.Add(new MailboxAddress("creator", mail.Email1));
+                message.To.Add(new MailboxAddress("creator", "utsav.patel@think.tank"));
                 // message.To.Add(new MailboxAddress("reciever", mail.Email2));
 
                 var templatePath = mail.TemplateBody;
@@ -219,22 +219,22 @@ namespace PICI.Repository
 
 
                 // Set the HTML body
-                var body = new TextPart("html")
-                {
-                    Text = modifiedContent
-                };
-                message.Body = body;
-                message.Subject = mail.Subject;
-                //message.Body = new TextPart("plain")
+                //var body = new TextPart("html")
                 //{
-                //    Text = $" A new project was created by " + mail.CreatorName + 
-                //    $" " +
-                //    $"with Project ID " + mail.Pid + $" " +
-                //    $" " +
-                //    $"AND Name " + mail.SubjectName + $"  " +
-                //    $" " +
-                //    $"Created on " + mail.Created_on.Date
+                //    Text = modifiedContent
                 //};
+                //message.Body = body;
+                message.Subject = mail.Subject;
+                message.Body = new TextPart("plain")
+                {
+                    Text = $" A new project was created by " + mail.CreatorName +
+                    $" " +
+                    $"with Project ID " + mail.Pid + $" " +
+                    $" " +
+                    $"AND Name " + mail.SubjectName + $"  " +
+                    $" " +
+                    $"Created on " + mail.Created_on.Date
+                };
 
                 using (var client = new SmtpClient())
                 {
@@ -251,7 +251,7 @@ namespace PICI.Repository
             {
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("bhavin p", "bhavin.parmar@think.tank"));
-                message.To.Add(new MailboxAddress("Updater", mail.Email1));
+                message.To.Add(new MailboxAddress("Updater", "utsav.patel@think.tank"));
                 // message.To.Add(new MailboxAddress("reciever", mail.Email2));
                 string templatePath = mail.TemplateBody;
                 var templateContent = templatePath;
@@ -263,11 +263,21 @@ namespace PICI.Repository
 
 
                 // Set the HTML body
-                var body = new TextPart("html")
+                //var body = new TextPart("html")
+                //{
+                //    Text = modifiedContent
+                //};
+                //message.Body = body;
+                message.Body = new TextPart("plain")
                 {
-                    Text = modifiedContent
+                    Text = $" A new project was created by " + mail.CreatorName +
+                    $" " +
+                    $"with Project ID " + mail.Pid + $" " +
+                    $" " +
+                    $"AND Name " + mail.SubjectName + $"  " +
+                    $" " +
+                    $"Created on " + mail.Created_on.Date
                 };
-                message.Body = body;
                 message.Subject = mail.Subject;
 
                 using (var client = new SmtpClient())
@@ -286,7 +296,7 @@ namespace PICI.Repository
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("bhavin p", "bhavin.parmar@think.tank"));
                 message.To.Add(new MailboxAddress("Updater", mail.Email1));
-                // message.To.Add(new MailboxAddress("reciever", mail.Email2));
+                message.To.Add(new MailboxAddress("reciever", "utsav.patel@think.tank"));
                 string templatePath = mail.TemplateBody;
                 var templateContent = templatePath;
                 var modifiedContent = templateContent//.Replace("{{Placeholder}}", "Dynamic Content")
@@ -297,11 +307,11 @@ namespace PICI.Repository
 
 
                 // Set the HTML body
-                var body = new TextPart("html")
-                {
-                    Text = modifiedContent
-                };
-                message.Body = body;
+                //var body = new TextPart("html")
+                //{
+                //    Text = modifiedContent
+                //};
+                //message.Body = body;
                 message.Subject = mail.Subject;
 
                 using (var client = new SmtpClient())
@@ -319,25 +329,27 @@ namespace PICI.Repository
 
         internal SenderMail MapToValue(SqlDataReader reader)
         {
-                return new SenderMail()
+            var emaildata = reader;
+
+                 SenderMail sender= new SenderMail()
                 {
                     Email1= reader.IsDBNull(reader.GetOrdinal("Email1")) ? null : (string)reader["Email1"],
-                    Email2 = reader.IsDBNull(reader.GetOrdinal("Email2")) ? null : (string)reader["Email2"],
+                    //Email2 = reader.IsDBNull(reader.GetOrdinal("Email2")) ? null : (string)reader["Email2"],
                     SubjectName= reader.IsDBNull(reader.GetOrdinal("SubjectName")) ? null : (string)reader["SubjectName"],
                     Creatorid= reader.IsDBNull(reader.GetOrdinal("Creatorid")) ? 0 : (int)reader["Creatorid"],
                      Updaterid= reader.IsDBNull(reader.GetOrdinal("Updaterid")) ? 0 : (int)reader["Updaterid"],
                     Recieverid = reader.IsDBNull(reader.GetOrdinal("Recieverid")) ? 0 : (Int64)reader["Recieverid"],
-                    Reciever = reader.IsDBNull(reader.GetOrdinal("Reciever")) ? null : (string)reader["Reciever"],
-                    Created_on = (reader["Created_on"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_on"]) : DateTime.MinValue,
-                    Updated_on = (reader["Updated_on"] != DBNull.Value) ? Convert.ToDateTime(reader["Updated_on"]) : DateTime.MinValue,
-                    UpdaterName = reader.IsDBNull(reader.GetOrdinal("UpdaterName")) ? null : (string)reader["UpdaterName"],
-                    CreatorName = reader.IsDBNull(reader.GetOrdinal("CreatorName")) ? null : (string)reader["CreatorName"],
+                    Reciever = reader.IsDBNull(reader.GetOrdinal("Reciever")) ? "uthav" : (string)reader["Reciever"],
+                    //Created_on = (reader["Created_on"] != DBNull.Value) ? Convert.ToDateTime(reader["Created_on"]) : DateTime.MinValue,
+                    //Updated_on = (reader["Updated_on"] != DBNull.Value) ? Convert.ToDateTime(reader["Updated_on"]) : DateTime.MinValue,
+                    UpdaterName = reader.IsDBNull(reader.GetOrdinal("UpdaterName")) ? "none" : (string)reader["UpdaterName"],
+                    CreatorName = reader.IsDBNull(reader.GetOrdinal("CreatorName")) ? "none" : (string)reader["CreatorName"],
                     Pid= reader.IsDBNull(reader.GetOrdinal("Pid")) ? null : (string)reader["Pid"],
                     Type =reader.IsDBNull(reader.GetOrdinal("Type"))? null :(string)reader["Type"],
                     Subject = reader.IsDBNull(reader.GetOrdinal("Subject")) ? null : (string)reader["Subject"],
                     TemplateBody = reader.IsDBNull(reader.GetOrdinal("TemplateBody")) ? null : (string)reader["TemplateBody"],
-
-                };
+                    
+                }; return sender;
             }
 
             //internal async Task<UserModel> GetByemail(SenderMail email)
