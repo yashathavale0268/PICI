@@ -194,18 +194,65 @@ namespace PICI.Repository
                 using (var client = new SmtpClient())
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                     client.Connect("120.72.95.94", 587,false);//StartTls,SecureSocketOptions.None
-                                                           // client.Authenticate("project.tracker@think.tank", "");
+                     client.Connect("120.72.95.94", 587, SecureSocketOptions.Auto);//StartTls,SecureSocketOptions.None
+                                                               // client.Authenticate("project.tracker@think.tank", "");
                     ///  client.AuthenticationMechanisms.Clear();
+                    client.Authenticate("bhavin.parmar@think.tank", "3st[(B#a4,Z6FG;*");
                     client.Send(message);
                      client.Disconnect(true);
                 }
             }
-            else if (mail.Type == "Update") {
+            else if (mail.Type == "Create_Serv")
+            {
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("project tracker", "project.tracker@think.tank"));
+                message.To.Add(new MailboxAddress("creator", mail.Email1));
+                // message.To.Add(new MailboxAddress("reciever", mail.Email2));
+
+                var templatePath = mail.TemplateBody;
+                var templateContent = System.IO.File.ReadAllText(templatePath);
+                var modifiedContent = templateContent//.Replace("{{Placeholder}}", "Dynamic Content")
+                    .Replace("{{CreatorName}}", mail.CreatorName)
+                    .Replace("{{Pid}}", mail.Pid)
+                    .Replace("{{SubjectName}}", mail.SubjectName)
+                    .Replace("{{Created_on}}", mail.Created_on.ToString("yyyy-mm-dd"));
+
+
+                // Set the HTML body
+                var body = new TextPart("html")
+                {
+                    Text = modifiedContent
+                };
+                message.Body = body;
+                message.Subject = mail.Subject;
+                //message.Body = new TextPart("plain")
+                //{
+                //    Text = $" A new project was created by " + mail.CreatorName + 
+                //    $" " +
+                //    $"with Project ID " + mail.Pid + $" " +
+                //    $" " +
+                //    $"AND Name " + mail.SubjectName + $"  " +
+                //    $" " +
+                //    $"Created on " + mail.Created_on.Date
+                //};
+
+                using (var client = new SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    client.Connect("120.72.95.94", 587, SecureSocketOptions.Auto);//StartTls,SecureSocketOptions.None
+                                                                                  // client.Authenticate("project.tracker@think.tank", "");
+                    ///  client.AuthenticationMechanisms.Clear();
+                    client.Authenticate("bhavin.parmar@think.tank", "3st[(B#a4,Z6FG;*");
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+            }
+            else if (mail.Type == "Update")
+            {
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("bhavin p", "bhavin.parmar@think.tank"));
                 message.To.Add(new MailboxAddress("Updater", mail.Email1));
-                message.To.Add(new MailboxAddress("reciever", mail.Email2));
+                // message.To.Add(new MailboxAddress("reciever", mail.Email2));
                 string templatePath = mail.TemplateBody;
                 var templateContent = templatePath;
                 var modifiedContent = templateContent//.Replace("{{Placeholder}}", "Dynamic Content")
@@ -231,7 +278,41 @@ namespace PICI.Repository
                     //client.Connect("smtp.example.com", 587, SecureSocketOptions.None);
                     client.Authenticate("bhavin.parmar@think.tank", "3st[(B#a4,Z6FG;*");
                     client.Send(message);
-                     client.Disconnect(true);
+                    client.Disconnect(true);
+                }
+            }
+            else if (mail.Type == "Update_Serv")
+            {
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("bhavin p", "bhavin.parmar@think.tank"));
+                message.To.Add(new MailboxAddress("Updater", mail.Email1));
+                // message.To.Add(new MailboxAddress("reciever", mail.Email2));
+                string templatePath = mail.TemplateBody;
+                var templateContent = templatePath;
+                var modifiedContent = templateContent//.Replace("{{Placeholder}}", "Dynamic Content")
+                    .Replace("{{UpdaterName}}", mail.UpdaterName)
+                    .Replace("{{Pid}}", mail.Pid)
+                    .Replace("{{SubjectName}}", mail.SubjectName)
+                    .Replace("{{Updated_on}}", mail.Updated_on.ToString("yyyy-mm-dd"));
+
+
+                // Set the HTML body
+                var body = new TextPart("html")
+                {
+                    Text = modifiedContent
+                };
+                message.Body = body;
+                message.Subject = mail.Subject;
+
+                using (var client = new SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    client.Connect("120.72.95.94", 587, SecureSocketOptions.Auto);//SecureSocketOptions.None
+                                                                                  //client.AuthenticationMechanisms.Clear();
+                                                                                  //client.Connect("smtp.example.com", 587, SecureSocketOptions.None);
+                    client.Authenticate("bhavin.parmar@think.tank", "3st[(B#a4,Z6FG;*");
+                    client.Send(message);
+                    client.Disconnect(true);
                 }
             }
         }
