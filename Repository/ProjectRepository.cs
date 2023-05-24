@@ -160,8 +160,8 @@ namespace PICI.Repository
             if (mail.Type=="Create")
             {
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("project tracker", "project.tracker@think.tank"));
-                message.To.Add(new MailboxAddress("creator", mail.Email1));
+                message.From.Add(new MailboxAddress("bhavin p", "bhavin.parmar@think.tank"));
+                message.To.Add(new MailboxAddress("creator","utsav.patel@think.tank"));
                // message.To.Add(new MailboxAddress("reciever", mail.Email2));
 
                 var templatePath = mail.TemplateBody;
@@ -205,7 +205,7 @@ namespace PICI.Repository
             else if (mail.Type == "Create_Serv")
             {
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("project tracker", "project.tracker@think.tank"));
+                message.From.Add(new MailboxAddress("bhavin p", "bhavin.parmar@think.tank"));
                 message.To.Add(new MailboxAddress("creator", "utsav.patel@think.tank"));
                 // message.To.Add(new MailboxAddress("reciever", mail.Email2));
 
@@ -295,7 +295,7 @@ namespace PICI.Repository
             {
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("bhavin p", "bhavin.parmar@think.tank"));
-                message.To.Add(new MailboxAddress("Updater", mail.Email1));
+                message.To.Add(new MailboxAddress("Updater", "utsav.patel@think.tank"));
                 message.To.Add(new MailboxAddress("reciever", "utsav.patel@think.tank"));
                 string templatePath = mail.TemplateBody;
                 var templateContent = templatePath;
@@ -304,7 +304,7 @@ namespace PICI.Repository
                     .Replace("{{Pid}}", mail.Pid)
                     .Replace("{{SubjectName}}", mail.SubjectName)
                     .Replace("{{Updated_on}}", mail.Updated_on.ToString("yyyy-mm-dd"));
-
+                
 
                 // Set the HTML body
                 //var body = new TextPart("html")
@@ -321,6 +321,7 @@ namespace PICI.Repository
                                                                                   //client.AuthenticationMechanisms.Clear();
                                                                                   //client.Connect("smtp.example.com", 587, SecureSocketOptions.None);
                     client.Authenticate("bhavin.parmar@think.tank", "3st[(B#a4,Z6FG;*");
+                    
                     client.Send(message);
                     client.Disconnect(true);
                 }
@@ -333,9 +334,9 @@ namespace PICI.Repository
 
                  SenderMail sender= new SenderMail()
                 {
-                    Email1= reader.IsDBNull(reader.GetOrdinal("Email1")) ? null : (string)reader["Email1"],
+                    Email1= reader.IsDBNull(reader.GetOrdinal("Email1")) ? "utsav.patel@think.tank" : (string)reader["Email1"],
                     //Email2 = reader.IsDBNull(reader.GetOrdinal("Email2")) ? null : (string)reader["Email2"],
-                    SubjectName= reader.IsDBNull(reader.GetOrdinal("SubjectName")) ? null : (string)reader["SubjectName"],
+                    SubjectName= reader.IsDBNull(reader.GetOrdinal("SubjectName")) ? "Test" : (string)reader["SubjectName"],
                     Creatorid= reader.IsDBNull(reader.GetOrdinal("Creatorid")) ? 0 : (int)reader["Creatorid"],
                      Updaterid= reader.IsDBNull(reader.GetOrdinal("Updaterid")) ? 0 : (int)reader["Updaterid"],
                     Recieverid = reader.IsDBNull(reader.GetOrdinal("Recieverid")) ? 0 : (Int64)reader["Recieverid"],
@@ -344,10 +345,10 @@ namespace PICI.Repository
                     //Updated_on = (reader["Updated_on"] != DBNull.Value) ? Convert.ToDateTime(reader["Updated_on"]) : DateTime.MinValue,
                     UpdaterName = reader.IsDBNull(reader.GetOrdinal("UpdaterName")) ? "none" : (string)reader["UpdaterName"],
                     CreatorName = reader.IsDBNull(reader.GetOrdinal("CreatorName")) ? "none" : (string)reader["CreatorName"],
-                    Pid= reader.IsDBNull(reader.GetOrdinal("Pid")) ? null : (string)reader["Pid"],
-                    Type =reader.IsDBNull(reader.GetOrdinal("Type"))? null :(string)reader["Type"],
-                    Subject = reader.IsDBNull(reader.GetOrdinal("Subject")) ? null : (string)reader["Subject"],
-                    TemplateBody = reader.IsDBNull(reader.GetOrdinal("TemplateBody")) ? null : (string)reader["TemplateBody"],
+                    Pid= reader.IsDBNull(reader.GetOrdinal("Pid")) ? "Test123" : (string)reader["Pid"],
+                    Type =reader.IsDBNull(reader.GetOrdinal("Type"))? "Test" :(string)reader["Type"],
+                    Subject = reader.IsDBNull(reader.GetOrdinal("Subject")) ?"Test" : (string)reader["Subject"],
+                    TemplateBody = reader.IsDBNull(reader.GetOrdinal("TemplateBody")) ? "Test" : (string)reader["TemplateBody"],
                     
                 }; return sender;
             }
