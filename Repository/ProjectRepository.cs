@@ -162,7 +162,7 @@ namespace PICI.Repository
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("project tracker", "project.tracker@think.tank"));
                 message.To.Add(new MailboxAddress("creator", mail.Email1));
-                message.To.Add(new MailboxAddress("reciever", mail.Email2));
+               // message.To.Add(new MailboxAddress("reciever", mail.Email2));
 
                 var templatePath = mail.TemplateBody;
                 var templateContent = System.IO.File.ReadAllText(templatePath);
