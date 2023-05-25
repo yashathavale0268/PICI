@@ -174,22 +174,22 @@ namespace PICI.Repository
 
 
                 // Set the HTML body
-                var body = new TextPart("html")
-                {
-                    Text = modifiedContent
-                };
-                message.Body = body;
-                message.Subject = mail.Subject;
-                //message.Body = new TextPart("plain")
+                //var body = new TextPart("html")
                 //{
-                //    Text = $" A new project was created by " + mail.CreatorName + 
-                //    $" " +
-                //    $"with Project ID " + mail.Pid + $" " +
-                //    $" " +
-                //    $"AND Name " + mail.SubjectName + $"  " +
-                //    $" " +
-                //    $"Created on " + mail.Created_on.Date
+                //    Text = modifiedContent
                 //};
+                //message.Body = body;
+                message.Subject = mail.Subject;
+                message.Body = new TextPart("plain")
+                {
+                    Text = $" A new project was created by " + mail.CreatorName +
+                    $" " +
+                    $"with Project ID " + mail.Pid + $" " +
+                    $" " +
+                    $"AND Name " + mail.SubjectName + $"  " +
+                    $" " +
+                    $"Created on " + mail.Created_on.Date
+                };
 
                 using (var client = new SmtpClient())
                 {
@@ -227,7 +227,7 @@ namespace PICI.Repository
                 message.Subject = mail.Subject;
                 message.Body = new TextPart("plain")
                 {
-                    Text = $" A new project was created by " + mail.CreatorName +
+                    Text = $" A new Server entry was created by " + mail.CreatorName +
                     $" " +
                     $"with Project ID " + mail.Pid + $" " +
                     $" " +
@@ -252,14 +252,15 @@ namespace PICI.Repository
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("bhavin p", "bhavin.parmar@think.tank"));
                 message.To.Add(new MailboxAddress("Updater", "utsav.patel@think.tank"));
-                // message.To.Add(new MailboxAddress("reciever", mail.Email2));
-                string templatePath = mail.TemplateBody;
-                var templateContent = templatePath;
-                var modifiedContent = templateContent//.Replace("{{Placeholder}}", "Dynamic Content")
-                    .Replace("{{UpdaterName}}", mail.UpdaterName)
-                    .Replace("{{Pid}}", mail.Pid)
-                    .Replace("{{SubjectName}}", mail.SubjectName)
-                    .Replace("{{Updated_on}}", mail.Updated_on.ToString("yyyy-mm-dd"));
+                message.To.Add(new MailboxAddress("reciever", "utsav.patel@think.tank"));//mail.Email2
+                //////////////////////////////////////////////////////////
+                //string templatePath = mail.TemplateBody;
+                //var templateContent = templatePath;
+                //var modifiedContent = templateContent//.Replace("{{Placeholder}}", "Dynamic Content")
+                //    .Replace("{{UpdaterName}}", mail.UpdaterName)
+                //    .Replace("{{Pid}}", mail.Pid)
+                //    .Replace("{{SubjectName}}", mail.SubjectName)
+                //    .Replace("{{Updated_on}}", mail.Updated_on.ToString("yyyy-mm-dd"));
 
 
                 // Set the HTML body
@@ -270,7 +271,7 @@ namespace PICI.Repository
                 //message.Body = body;
                 message.Body = new TextPart("plain")
                 {
-                    Text = $" A new project was created by " + mail.CreatorName +
+                    Text = $" A Project was Updated by " + mail.CreatorName +
                     $" " +
                     $"with Project ID " + mail.Pid + $" " +
                     $" " +
@@ -297,14 +298,15 @@ namespace PICI.Repository
                 message.From.Add(new MailboxAddress("bhavin p", "bhavin.parmar@think.tank"));
                 message.To.Add(new MailboxAddress("Updater", "utsav.patel@think.tank"));
                 message.To.Add(new MailboxAddress("reciever", "utsav.patel@think.tank"));
-                string templatePath = mail.TemplateBody;
-                var templateContent = templatePath;
-                var modifiedContent = templateContent//.Replace("{{Placeholder}}", "Dynamic Content")
-                    .Replace("{{UpdaterName}}", mail.UpdaterName)
-                    .Replace("{{Pid}}", mail.Pid)
-                    .Replace("{{SubjectName}}", mail.SubjectName)
-                    .Replace("{{Updated_on}}", mail.Updated_on.ToString("yyyy-mm-dd"));
-                
+
+                //string templatePath = mail.TemplateBody;
+                //var templateContent = templatePath;
+                //var modifiedContent = templateContent//.Replace("{{Placeholder}}", "Dynamic Content")
+                //    .Replace("{{UpdaterName}}", mail.UpdaterName)
+                //    .Replace("{{Pid}}", mail.Pid)
+                //    .Replace("{{SubjectName}}", mail.SubjectName)
+                //    .Replace("{{Updated_on}}", mail.Updated_on.ToString("yyyy-mm-dd"));
+
 
                 // Set the HTML body
                 //var body = new TextPart("html")
@@ -312,6 +314,17 @@ namespace PICI.Repository
                 //    Text = modifiedContent
                 //};
                 //message.Body = body;
+
+                message.Body = new TextPart("plain")
+                {
+                    Text = $" A Server entry was Updated by " + mail.CreatorName +
+                  $" " +
+                  $"with Project ID " + mail.Pid + $" " +
+                  $" " +
+                  $"AND Name " + mail.SubjectName + $"  " +
+                  $" " +
+                  $"Created on " + mail.Created_on.Date
+                };
                 message.Subject = mail.Subject;
 
                 using (var client = new SmtpClient())
