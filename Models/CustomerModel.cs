@@ -16,7 +16,7 @@ namespace PICI.Models
         public string Cid { get; set; }
         [DataMember(Name = "Name")]
         public string Name { get; set; }
-        [DataMember(Name = "Custid")]
+        [DataMember(Name = "CreatedBy")]
         public int CreatedBy { get; set; }
         [DataMember(Name = "UpdatedBy")]
         public int UpdatedBy { get; set; }

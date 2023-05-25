@@ -7,6 +7,7 @@ using MailKit.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
+using MailKit;
 using PICI.Models;
 
 namespace PICI.Repository

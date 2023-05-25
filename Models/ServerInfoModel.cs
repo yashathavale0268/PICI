@@ -35,10 +35,10 @@ namespace PICI.Models
         [DataMember(Name = "Updateded_on")]
         public string Updated_on { get; set; }
 
-        [DataMember(Name = "ServInfoid")]
+        [DataMember(Name = "CreatedBy")]
         public Int64 CreatedBy { get; set; }
 
-        [DataMember(Name = "ServInfoid")]
+        [DataMember(Name = "Updatedby")]
         public Int64 UpdatedBy { get; set; }
 
     }
