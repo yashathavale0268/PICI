@@ -163,15 +163,16 @@ namespace PICI.Repository
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("bhavin p", "bhavin.parmar@think.tank"));
                 message.To.Add(new MailboxAddress("creator","utsav.patel@think.tank"));
-               // message.To.Add(new MailboxAddress("reciever", mail.Email2));
+                message.To.Add(new MailboxAddress("reciever", "utsav.patel@think.tank"));
+                // message.To.Add(new MailboxAddress("reciever", mail.Email2));
 
-                var templatePath = mail.TemplateBody;
-                var templateContent = System.IO.File.ReadAllText(templatePath);
-                var modifiedContent = templateContent//.Replace("{{Placeholder}}", "Dynamic Content")
-                    .Replace("{{CreatorName}}", mail.CreatorName)
-                    .Replace("{{Pid}}", mail.Pid)
-                    .Replace("{{SubjectName}}", mail.SubjectName)
-                    .Replace("{{Created_on}}", mail.Created_on.ToString("yyyy-mm-dd"));
+                //var templatePath = mail.TemplateBody;
+                //var templateContent = System.IO.File.ReadAllText(templatePath);
+                //var modifiedContent = templateContent//.Replace("{{Placeholder}}", "Dynamic Content")
+                //    .Replace("{{CreatorName}}", mail.CreatorName)
+                //    .Replace("{{Pid}}", mail.Pid)
+                //    .Replace("{{SubjectName}}", mail.SubjectName)
+                //    .Replace("{{Created_on}}", mail.Created_on.ToString("yyyy-mm-dd"));
 
 
                 // Set the HTML body
@@ -208,15 +209,16 @@ namespace PICI.Repository
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("bhavin p", "bhavin.parmar@think.tank"));
                 message.To.Add(new MailboxAddress("creator", "utsav.patel@think.tank"));
+                message.To.Add(new MailboxAddress("reciever", "utsav.patel@think.tank"));
                 // message.To.Add(new MailboxAddress("reciever", mail.Email2));
 
-                var templatePath = mail.TemplateBody;
-                var templateContent = System.IO.File.ReadAllText(templatePath);
-                var modifiedContent = templateContent//.Replace("{{Placeholder}}", "Dynamic Content")
-                    .Replace("{{CreatorName}}", mail.CreatorName)
-                    .Replace("{{Pid}}", mail.Pid)
-                    .Replace("{{SubjectName}}", mail.SubjectName)
-                    .Replace("{{Created_on}}", mail.Created_on.ToString("yyyy-mm-dd"));
+                //var templatePath = mail.TemplateBody;
+                //var templateContent = System.IO.File.ReadAllText(templatePath);
+                //var modifiedContent = templateContent//.Replace("{{Placeholder}}", "Dynamic Content")
+                //    .Replace("{{CreatorName}}", mail.CreatorName)
+                //    .Replace("{{Pid}}", mail.Pid)
+                //    .Replace("{{SubjectName}}", mail.SubjectName)
+                //    .Replace("{{Created_on}}", mail.Created_on.ToString("yyyy-mm-dd"));
 
 
                 // Set the HTML body

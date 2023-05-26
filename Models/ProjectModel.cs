@@ -42,6 +42,8 @@ namespace PICI.Models
         [DataMember(Name = "UpdatedBy")]
         public int UpdatedBy { get; set; }
 
+        [DataMember(Name = "TechStackName")]
+        public string TechStackName { get; set; }
 
     }
 }
