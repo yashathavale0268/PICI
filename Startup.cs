@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-
+using PICI.Models;
 
 namespace PICI
 {
@@ -51,6 +51,7 @@ namespace PICI
             services.AddScoped<ProjTrackerRepository>();
             services.AddScoped<ProjectRepository>();
             services.AddScoped<ServerInfoRepository>();
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             //   services.AddScoped<VendorRepository>();
             //   services.AddScoped<DepartmentRepository>();
             //  services.AddScoped<StatusRepository>();

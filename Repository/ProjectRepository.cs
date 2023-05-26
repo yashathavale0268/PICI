@@ -9,18 +9,21 @@ using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MailKit;
 using PICI.Models;
+using Microsoft.Extensions.Options;
 
 namespace PICI.Repository
 {
     public class ProjectRepository
     {
         private readonly string _connectionString;
+        private readonly MailSettings _MailSettings;
         public bool Itexists { get; set; }
         public bool IsSuccess { get; set; }
-        public ProjectRepository(IConfiguration configuration)
+        public ProjectRepository(IConfiguration configuration, IOptions<MailSettings> mailSettings)
         {
             _connectionString = configuration.GetConnectionString("MainCon");
 
+            _MailSettings = mailSettings.Value;
 
         }
 
@@ -199,7 +202,7 @@ namespace PICI.Repository
                      client.Connect("120.72.95.94", 587, SecureSocketOptions.Auto);//StartTls,SecureSocketOptions.None
                                                                // client.Authenticate("project.tracker@think.tank", "");
                     ///  client.AuthenticationMechanisms.Clear();
-                    client.Authenticate("bhavin.parmar@think.tank", "3st[(B#a4,Z6FG;*");
+                    client.Authenticate(_MailSettings.From,_MailSettings.Password);
                     client.Send(message);
                      client.Disconnect(true);
                 }
@@ -208,8 +211,8 @@ namespace PICI.Repository
             {
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("bhavin p", "bhavin.parmar@think.tank"));
-                message.To.Add(new MailboxAddress("creator", "utsav.patel@think.tank"));
-                message.To.Add(new MailboxAddress("reciever", "utsav.patel@think.tank"));
+                message.To.Add(new MailboxAddress("creator", "bhavin.parkar@think.tank"));
+                message.To.Add(new MailboxAddress("reciever", "bhavin.parkar@think.tank"));
                 // message.To.Add(new MailboxAddress("reciever", mail.Email2));
 
                 //var templatePath = mail.TemplateBody;
@@ -245,7 +248,7 @@ namespace PICI.Repository
                     client.Connect("120.72.95.94", 587, SecureSocketOptions.Auto);//StartTls,SecureSocketOptions.None
                                                                                   // client.Authenticate("project.tracker@think.tank", "");
                     ///  client.AuthenticationMechanisms.Clear();
-                    client.Authenticate("bhavin.parmar@think.tank", "3st[(B#a4,Z6FG;*");
+                    client.Authenticate(_MailSettings.From, _MailSettings.Password);
                     client.Send(message);
                     client.Disconnect(true);
                 }
@@ -254,8 +257,8 @@ namespace PICI.Repository
             {
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("bhavin p", "bhavin.parmar@think.tank"));
-                message.To.Add(new MailboxAddress("Updater", "utsav.patel@think.tank"));
-                message.To.Add(new MailboxAddress("reciever", "utsav.patel@think.tank"));//mail.Email2
+                message.To.Add(new MailboxAddress("Updater", "bhavin.parkar@think.tank"));
+                message.To.Add(new MailboxAddress("reciever", "bhavin.parkar@think.tank"));//mail.Email2
                 //////////////////////////////////////////////////////////
                 //string templatePath = mail.TemplateBody;
                 //var templateContent = templatePath;
@@ -288,9 +291,9 @@ namespace PICI.Repository
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                     client.Connect("120.72.95.94", 587, SecureSocketOptions.Auto);//SecureSocketOptions.None
-                    //client.AuthenticationMechanisms.Clear();
-                    //client.Connect("smtp.example.com", 587, SecureSocketOptions.None);
-                    client.Authenticate("bhavin.parmar@think.tank", "3st[(B#a4,Z6FG;*");
+                                                                                  //client.AuthenticationMechanisms.Clear();
+                                                                                  //client.Connect("smtp.example.com", 587, SecureSocketOptions.None);
+                    client.Authenticate(_MailSettings.From, _MailSettings.Password);
                     client.Send(message);
                     client.Disconnect(true);
                 }
@@ -299,9 +302,9 @@ namespace PICI.Repository
             {
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("bhavin p", "bhavin.parmar@think.tank"));
-                message.To.Add(new MailboxAddress("Updater", "utsav.patel@think.tank"));
-                message.To.Add(new MailboxAddress("reciever", "utsav.patel@think.tank"));
-
+                message.To.Add(new MailboxAddress("Updater", "bhavin.parkar@think.tank"));
+                message.To.Add(new MailboxAddress("reciever", "bhavin.parkar@think.tank"));
+                message.WriteToAsync("email.txt");
                 //string templatePath = mail.TemplateBody;
                 //var templateContent = templatePath;
                 //var modifiedContent = templateContent//.Replace("{{Placeholder}}", "Dynamic Content")
@@ -336,8 +339,8 @@ namespace PICI.Repository
                     client.Connect("120.72.95.94", 587, SecureSocketOptions.Auto);//SecureSocketOptions.None
                                                                                   //client.AuthenticationMechanisms.Clear();
                                                                                   //client.Connect("smtp.example.com", 587, SecureSocketOptions.None);
-                    client.Authenticate("bhavin.parmar@think.tank", "3st[(B#a4,Z6FG;*");
-                    
+                    client.Authenticate(_MailSettings.From, _MailSettings.Password);
+
                     client.Send(message);
                     client.Disconnect(true);
                 }
