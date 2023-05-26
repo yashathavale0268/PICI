@@ -370,39 +370,8 @@ namespace PICI.Repository
                     TemplateBody = reader.IsDBNull(reader.GetOrdinal("TemplateBody")) ? "Test" : (string)reader["TemplateBody"],
                     
                 }; return sender;
-            }
-
-            //internal async Task<UserModel> GetByemail(SenderMail email)
-            //{
-            //    using (SqlConnection sql = new(_connectionString))
-            //    using (SqlCommand cmd = new("sp_checkemail", sql))
-            //    {
-            //        cmd.CommandType = CommandType.StoredProcedure;
-            //        cmd.Parameters.AddWithValue("@uid");
-
-            //        var returncode = new SqlParameter("@exists", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-            //        cmd.Parameters.Add(returncode);
-            //        await sql.OpenAsync();
-            //        UserModel response = new();
-            //        // var response = new List<AssetModel>();
-            //        using (var reader = await cmd.ExecuteReaderAsync())
-            //        {
-            //            while (await reader.ReadAsync())
-            //            {
-            //                response = getnamebyemail(reader);
-            //            }
-            //        }
-            //        await sql.CloseAsync();
-
-            //        bool itexists = returncode?.Value is not DBNull && (bool)returncode.Value;
-
-            //        Itexists = itexists;
-
-
-            //        return response;
-            //    }
-
-            //}
-
         }
+
+
+    }
 }
